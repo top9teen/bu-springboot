@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" pageWidth="595" pageHeight="842" columnWidth="453" leftMargin="71" rightMargin="71" topMargin="71" bottomMargin="71" uuid="f7dd918e-6600-478b-899f-b2cac01fe4bb">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="96"/>
+	<parameter name="name" class="java.lang.String"/>
+	<parameter name="date" class="java.lang.String"/>
+	<parameter name="address" class="java.lang.String"/>
+	<parameter name="community" class="java.lang.String"/>
+	<parameter name="inspectionName" class="java.lang.String"/>
+	<parameter name="assessmentDetail" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement uuid="e437267c-e6bf-4611-9add-f3e1d10c3e3b" x="0" y="0" width="453" height="79"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="18" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ใบรายงานผลการตรวจสุขภาพเบื้องต้นด้วยตนเองสำหรับผู้สูงอายุ]]></text>
+			</staticText>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="274">
+			<textField>
+				<reportElement uuid="f975f966-8516-445d-a063-38aae096c8e4" x="30" y="21" width="318" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="672648f9-0f3c-46cb-a432-64c84458818a" x="378" y="21" width="75" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="246cafb9-f5c1-4ec5-9fb0-d8618adaef0e" x="30" y="55" width="318" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{address}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="8197b8ed-b230-40dd-86b0-abbc7785d962" x="378" y="55" width="75" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{community}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="11e2e4ad-409b-429a-ab9b-bd814811fe65" x="106" y="127" width="347" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{inspectionName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="32b9628d-405a-4b66-a1c9-2edcbdffb8f3" x="15" y="162" width="438" height="112"/>
+				<textElement verticalAlignment="Top">
+					<font fontName="TH SarabunPSK" size="16" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA["  -  " + $P{assessmentDetail}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="527ecc47-f401-4297-91c8-5d750cb178ae" x="0" y="21" width="30" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ชื่อ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="9a7cd794-10ad-40ec-87f2-df49f74d8486" x="0" y="55" width="30" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ที่อยู่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="e255b0de-24bd-490d-831f-a7fe769913dc" x="348" y="21" width="30" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[วันที่]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="3a002d87-8259-4cef-8633-be8942ef8e09" x="348" y="55" width="30" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ชุมชน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="020b0021-8c62-453c-99e5-89952497b034" x="0" y="127" width="106" height="30"/>
+				<textElement verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="16" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ผลการตรวจสุขภาพโรค ]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+</jasperReport>
