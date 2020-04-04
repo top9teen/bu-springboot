@@ -44,6 +44,7 @@ public class AssessController  implements Serializable{
 		RestManager manager = new RestManager();
 		manager.addResult(assessService.listInspection());
 		return  manager.getResult();
+		
 	}
 	
 	@GetMapping(value = { "/get-inspection-by-id/{inspectionId}" })
