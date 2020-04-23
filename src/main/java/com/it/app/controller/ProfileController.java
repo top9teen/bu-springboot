@@ -3,6 +3,7 @@ package com.it.app.controller;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,10 +17,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.app.entity.UserProfile;
 import com.it.app.manager.RestManager;
 import com.it.app.model.req.LoginReqModel;
 import com.it.app.model.req.ProfileReqModel;
 import com.it.app.model.resp.ChangePasswordReqModel;
+import com.it.app.model.resp.ProfileRespModel;
 import com.it.app.service.ProfileService;
 
 import io.swagger.annotations.ApiResponse;
@@ -81,10 +84,8 @@ public class ProfileController implements Serializable{
 	
 	@GetMapping(value = "/get-profile-list-by-role/{role}")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
-	public Object getProfileListByRole(@PathVariable("role") String role) throws ParseException {
-		RestManager manager = new RestManager();
-		manager.addResult(ProfileController.getProfileListByRole(role));
-		return manager.getResult();
+	public List<ProfileRespModel> getProfileListByRole(@PathVariable("role") String role) throws ParseException {
+		return ProfileController.getProfileListByRole(role);
 	}
 	
 	

@@ -168,7 +168,7 @@ public class ProfileService {
 		return result;
 	}
 
-	public Object getProfileListByRole(String role) {
+	public List<ProfileRespModel> getProfileListByRole(String role) {
 		List<UserAcount> acounts = userAcountRepository.findAllByRole(role);
 		List<ProfileRespModel> profileRespModels = new ArrayList<>();
 		for (UserAcount acount : acounts) {
