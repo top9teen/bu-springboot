@@ -729,7 +729,7 @@ CREATE TABLE `user_profile` (
   `age` varchar(3) DEFAULT NULL,
   `phone_no` varchar(10) DEFAULT NULL,
   `card_id` varchar(13) DEFAULT NULL,
-  `img` text,
+  `img` longtext DEFAULT NULL,
   `address` varchar(250) DEFAULT NULL,
   `community` varchar(2) DEFAULT NULL,
   `lat` varchar(100) DEFAULT NULL,
