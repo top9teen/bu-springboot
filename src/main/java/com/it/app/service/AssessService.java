@@ -472,8 +472,13 @@ public class AssessService {
 			param.put("inspectionName", assessment.getInspetionDetail());
 			param.put("assessmentDetail", assessment.getAssessmentDetail());
 			try {
-				String path = "src/main/resources/jasper/report1.jasper";
-				JasperPrint jasperPrint = JasperFillManager.fillReport(path, param, new JREmptyDataSource());
+//				System.out.println(this.getClass().getResourceAsStream("/jasper/report1.jasper"));
+//				String path = "src/main/resources/jasper/report1.jasper";
+				
+//				JasperReport jasperReport = JasperCompileManager.compileReport(path);
+//				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, new JREmptyDataSource());
+				
+				JasperPrint jasperPrint = JasperFillManager.fillReport(this.getClass().getResourceAsStream("/jasper/report1.jasper"), param, new JREmptyDataSource());
 				byte[] temp = JasperExportManager.exportReportToPdf(jasperPrint);
 //				Path tempFile = Files.createTempFile("Assessment", ".pdf");
 //				if (Files.exists(tempFile)) {
