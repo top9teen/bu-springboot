@@ -6,6 +6,7 @@ public class SearchReportReqModel {
 	private String dateStart;
 	private String dateEnd;
 	private String community;
+	private String lavel;
 	
 	public String getInspectionId() {
 		return inspectionId;
@@ -30,6 +31,12 @@ public class SearchReportReqModel {
 	}
 	public void setCommunity(String community) {
 		this.community = community;
+	}
+	public String getLavel() {
+		return lavel;
+	}
+	public void setLavel(String lavel) {
+		this.lavel = lavel;
 	}	
 	
 }

@@ -1,15 +1,14 @@
 package com.it.app.repository;
 
-import org.springframework.stereotype.Repository;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+
+import org.springframework.stereotype.Repository;
 @Repository
+@SuppressWarnings("rawtypes")
 public class BaseRepository {
 	
 	@PersistenceContext
@@ -25,6 +24,12 @@ public class BaseRepository {
 	public Object getUserIdAssess(String param) {
 		Query query = entityManager
 				.createNativeQuery("SELECT DISTINCT user_id  FROM assessment where inspection_id = " + param);
+		List listResult = query.getResultList();
+		return listResult;
+	}
+	public Object getUserIdAssessALL() {
+		Query query = entityManager
+				.createNativeQuery("SELECT DISTINCT user_id  FROM assessment");
 		List listResult = query.getResultList();
 		return listResult;
 	}

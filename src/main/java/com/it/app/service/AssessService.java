@@ -1,16 +1,6 @@
 package com.it.app.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
@@ -20,7 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.util.TempFile;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -48,32 +37,26 @@ import com.it.app.model.resp.AssessmentRespModel;
 import com.it.app.model.resp.CriterionAssessmentRespModel;
 import com.it.app.model.resp.CriterionRespModel;
 import com.it.app.model.resp.DataGoogleMapRespModel;
-import com.it.app.model.resp.InspectionRespModel;
 import com.it.app.model.resp.DataGoogleMapRespModel.DataCriterionDetail;
 import com.it.app.model.resp.DataGoogleMapRespModel.DataGoogleDetail;
+import com.it.app.model.resp.InspectionRespModel;
 import com.it.app.repository.AssessmentRepository;
 import com.it.app.repository.BaseRepository;
 import com.it.app.repository.ChoiceRepository;
 import com.it.app.repository.CriterionRepository;
 import com.it.app.repository.InspectionRepository;
 import com.it.app.repository.QuestionRepository;
-import com.it.app.repository.UserAcountRepository;
 import com.it.app.repository.UserProfileRepository;
 import com.it.app.utils.DateUtil;
 
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.design.JasperDesign;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
-import net.sf.jasperreports.engine.xml.JRXmlLoader;
-import net.sf.jasperreports.view.JasperViewer;
 
 @Service
 @EnableAsync
@@ -97,8 +80,6 @@ public class AssessService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	@Autowired
-	private UserAcountRepository userAcountRepository;
 	
 	@Autowired
 	private UserProfileRepository userProfileRepository;
@@ -382,48 +363,150 @@ public class AssessService {
 	
 	@SuppressWarnings({ "unchecked"})
 	public Object getDataMapByInspectionId(SearchReportReqModel searchReportReqModel) {
+		
+		/*
+		NEW PARAMETER  ON 2020/07/18
+		*/  
 		DataGoogleMapRespModel resp = new DataGoogleMapRespModel();
 		List<DataGoogleDetail> dataGoogleDetails = new ArrayList<>();
-
-		List<Integer> countUserId = (List<Integer>) baseRepository.getUserIdAssess(searchReportReqModel.getInspectionId());
-		List<Criterion> criterionS =  criterionRepository.findListCriterionByInspectionId(getLong(searchReportReqModel.getInspectionId()));
-		Map<String, String> marker = getMarker(criterionS.size());
-		for(Integer userId : countUserId) {
-			Optional<Assessment> opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()));
-			Optional<UserProfile> opUserProfile = null;
-			if(StringUtils.isNotBlank(searchReportReqModel.getCommunity())) {
-				opUserProfile = userProfileRepository.findOneByUserIdAndCommunity(getLong(String.valueOf(userId)), searchReportReqModel.getCommunity());
-			}else {
-				opUserProfile =	userProfileRepository.findOneByUserId(Long.valueOf(String.valueOf(userId)));
-			}
-			if(opUserProfile.isPresent() && opAssessment.isPresent()) {
-				DataGoogleDetail dataGoogleDetail = new DataGoogleDetail();
-				int markerKey = 1;
-				markerKey = mapGetCriterion(criterionS, getLong(opAssessment.get().getCriterionTotal()));
-				dataGoogleDetail.setLat(opUserProfile.get().getLat());
-				dataGoogleDetail.setLng(opUserProfile.get().getLng());
-				dataGoogleDetail.setMarker(marker.get(String.valueOf(markerKey)));
-				dataGoogleDetail.setName(getTitleName(opUserProfile.get().getTitleName()) + opUserProfile.get().getFertName() +" "+ opUserProfile.get().getLastName());
-				dataGoogleDetail.setUserId(userId.toString());
-				dataGoogleDetail.setAssessmentId(String.valueOf(opAssessment.get().getAssessmentId()));
-				dataGoogleDetail.setAssessmentDetail(opAssessment.get().getAssessmentDetail());
-				dataGoogleDetail.setCommunity(getCommunity(opUserProfile.get().getCommunity()));
-				dataGoogleDetails.add(dataGoogleDetail);
-			}
-		}
-		resp.setDataGoogleDetails(dataGoogleDetails);
-		List<DataCriterionDetail> dataCriterionDetails = new ArrayList<>();
-		int is = 1;
-        for (Criterion c :criterionS) {
-        	DataCriterionDetail dataCriterionDetail = new DataCriterionDetail();
-        	dataCriterionDetail.setCriterDetail(c.getCriterionDetail());
-        	dataCriterionDetail.setMarker(marker.get(String.valueOf(is)));
-        	is++;
-        	dataCriterionDetails.add(dataCriterionDetail);
-          }
+		List<Integer> countUserId = new ArrayList<>();
+		List<Criterion> criterionS = new ArrayList<>();
 		
-        resp.setDataCriterionDetails(dataCriterionDetails);
+		/* 
+		NEW FUNCTION IF CHECK DATA AND GET DATA  ON 2020/07/18
+		*/  
+		
+		if (searchReportReqModel.getInspectionId() != null && searchReportReqModel.getInspectionId().equalsIgnoreCase("")) {
+			countUserId = new ArrayList<>();
+			criterionS 	= new ArrayList<>();
+			List<Inspection> inspections = inspectionRepository.findAllInspection();
+			
+			DataCriterionDetail dataCriterionDetail = new DataCriterionDetail();
+			List<DataCriterionDetail> dataCriterionDetails = new ArrayList<>();
+			for (Inspection ins :inspections) {
+				countUserId = new ArrayList<>();
+				criterionS 	= new ArrayList<>();
+				countUserId = (List<Integer>) baseRepository.getUserIdAssess(ins.getInspectionId().toString());
+				criterionS 	=  criterionRepository.findListCriterionByInspectionId(ins.getInspectionId());		
+				Map<String, String> marker = getMarker(criterionS.size());
+				for(Integer userId : countUserId) {
+					
+					/* 
+					NEW FUNCTION IF CHECK DATA AND GET DATA  ON 2020/07/18
+					*/  
+					
+					Optional<Assessment> opAssessment = null;
+					if (searchReportReqModel.getInspectionId() != null && searchReportReqModel.getInspectionId().equalsIgnoreCase("")) {
+						 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserIdALL(Long.parseLong(userId.toString()));
+					} else {
+						 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()));
+					}
+
+					Optional<UserProfile> opUserProfile = null;
+					if(StringUtils.isNotBlank(searchReportReqModel.getCommunity())) {
+						opUserProfile = userProfileRepository.findOneByUserIdAndCommunity(getLong(String.valueOf(userId)), searchReportReqModel.getCommunity());
+					}else {
+						opUserProfile =	userProfileRepository.findOneByUserId(Long.valueOf(String.valueOf(userId)));
+					}
+					if(opUserProfile.isPresent() && opAssessment.isPresent()) {
+						DataGoogleDetail dataGoogleDetail = new DataGoogleDetail();
+						int markerKey = 1;
+						markerKey = mapGetCriterion(criterionS, getLong(opAssessment.get().getCriterionTotal()));
+						dataGoogleDetail.setLat(opUserProfile.get().getLat());
+						dataGoogleDetail.setLng(opUserProfile.get().getLng());
+						dataGoogleDetail.setMarker(marker.get(String.valueOf(markerKey)));
+						dataGoogleDetail.setName(getTitleName(opUserProfile.get().getTitleName()) + opUserProfile.get().getFertName() +" "+ opUserProfile.get().getLastName());
+						dataGoogleDetail.setUserId(userId.toString());
+						dataGoogleDetail.setAssessmentId(String.valueOf(opAssessment.get().getAssessmentId()));
+						dataGoogleDetail.setAssessmentDetail(opAssessment.get().getAssessmentDetail());
+						dataGoogleDetail.setCommunity(getCommunity(opUserProfile.get().getCommunity()));
+						dataGoogleDetail.setLavel(String.valueOf(markerKey));
+						dataGoogleDetail.setInspectionsName(ins.getInspectionName());
+						if (searchReportReqModel.getLavel() != null && !searchReportReqModel.getLavel().equalsIgnoreCase("")) {
+							if (searchReportReqModel.getLavel().equalsIgnoreCase(String.valueOf(markerKey))) {
+								dataGoogleDetails.add(dataGoogleDetail);
+							}
+						} else {
+							dataGoogleDetails.add(dataGoogleDetail);
+						}
+					}
+				}
+				int is = 1;
+		        for (Criterion c :criterionS) {
+		        	dataCriterionDetail = new DataCriterionDetail();
+		        	dataCriterionDetail.setCriterDetail(ins.getInspectionName()+" => " + c.getCriterionDetail());
+		        	dataCriterionDetail.setMarker(marker.get(String.valueOf(is)));
+		        	is++;
+		        	dataCriterionDetails.add(dataCriterionDetail);
+		          }
+			}   
+			resp.setDataGoogleDetails(dataGoogleDetails);
+			resp.setDataCriterionDetails(dataCriterionDetails);
 		return resp;
+		} else {
+			countUserId = new ArrayList<>();
+			criterionS 	= new ArrayList<>();
+			Optional<Inspection>  inspections = inspectionRepository.findOngById(getLong(searchReportReqModel.getInspectionId()));
+			countUserId = (List<Integer>) baseRepository.getUserIdAssess(searchReportReqModel.getInspectionId());
+			criterionS 	=  criterionRepository.findListCriterionByInspectionId(getLong(searchReportReqModel.getInspectionId()));			
+			Map<String, String> marker = getMarker(criterionS.size());
+			for(Integer userId : countUserId) {
+				
+				/* 
+				NEW FUNCTION IF CHECK DATA AND GET DATA  ON 2020/07/18
+				*/  
+				
+				Optional<Assessment> opAssessment = null;
+				if (searchReportReqModel.getInspectionId() != null && searchReportReqModel.getInspectionId().equalsIgnoreCase("")) {
+					 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserIdALL(Long.parseLong(userId.toString()));
+				} else {
+					 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()));
+				}
+
+				Optional<UserProfile> opUserProfile = null;
+				if(StringUtils.isNotBlank(searchReportReqModel.getCommunity())) {
+					opUserProfile = userProfileRepository.findOneByUserIdAndCommunity(getLong(String.valueOf(userId)), searchReportReqModel.getCommunity());
+				}else {
+					opUserProfile =	userProfileRepository.findOneByUserId(Long.valueOf(String.valueOf(userId)));
+				}
+				if(opUserProfile.isPresent() && opAssessment.isPresent()) {
+					DataGoogleDetail dataGoogleDetail = new DataGoogleDetail();
+					int markerKey = 1;
+					markerKey = mapGetCriterion(criterionS, getLong(opAssessment.get().getCriterionTotal()));
+					dataGoogleDetail.setLat(opUserProfile.get().getLat());
+					dataGoogleDetail.setLng(opUserProfile.get().getLng());
+					dataGoogleDetail.setMarker(marker.get(String.valueOf(markerKey)));
+					dataGoogleDetail.setName(getTitleName(opUserProfile.get().getTitleName()) + opUserProfile.get().getFertName() +" "+ opUserProfile.get().getLastName());
+					dataGoogleDetail.setUserId(userId.toString());
+					dataGoogleDetail.setAssessmentId(String.valueOf(opAssessment.get().getAssessmentId()));
+					dataGoogleDetail.setAssessmentDetail(opAssessment.get().getAssessmentDetail());
+					dataGoogleDetail.setCommunity(getCommunity(opUserProfile.get().getCommunity()));
+					dataGoogleDetail.setLavel(String.valueOf(markerKey));
+					dataGoogleDetail.setInspectionsName(inspections.get().getInspectionName());
+					if (searchReportReqModel.getLavel() != null && !searchReportReqModel.getLavel().equalsIgnoreCase("")) {
+						if (searchReportReqModel.getLavel().equalsIgnoreCase(String.valueOf(markerKey))) {
+							dataGoogleDetails.add(dataGoogleDetail);
+						}
+					} else {
+						dataGoogleDetails.add(dataGoogleDetail);
+					}
+					
+				}
+			}
+			resp.setDataGoogleDetails(dataGoogleDetails);
+			List<DataCriterionDetail> dataCriterionDetails = new ArrayList<>();
+			int is = 1;
+	        for (Criterion c :criterionS) {
+	        	DataCriterionDetail dataCriterionDetail = new DataCriterionDetail();
+	        	dataCriterionDetail.setCriterDetail(c.getCriterionDetail());
+	        	dataCriterionDetail.setMarker(marker.get(String.valueOf(is)));
+	        	is++;
+	        	dataCriterionDetails.add(dataCriterionDetail);
+	          }
+			
+	        resp.setDataCriterionDetails(dataCriterionDetails);
+			return resp;
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -616,6 +699,9 @@ public class AssessService {
 	private Map<String, String> getMarker(int size){
 		Map<String, String> map = new HashMap<>();
 		switch (size) {
+		case 0:
+			map.put("1", "assets/images/marker-red.png");
+			break;
 		case 1:
 			map.put("1", "assets/images/marker-red.png");
 			break;
@@ -634,15 +720,12 @@ public class AssessService {
 			map.put("3", "assets/images/marker-yellow.png");
 			map.put("4", "assets/images/marker-green2.png");
 			break;
-		case 5:
+		default:
 			map.put("1", "assets/images/marker-red.png");
 			map.put("2", "assets/images/marker-orange.png");
 			map.put("3", "assets/images/marker-yellow.png");
 			map.put("4", "assets/images/marker-green.png");
 			map.put("5", "assets/images/marker-green2.png");
-			break;
-		default:
-			map.put("1", "assets/images/marker-red.png");
 			break;
 		}
 		

@@ -15,4 +15,7 @@ public interface CriterionRepository extends JpaRepository<Criterion, Long>{
 	@Query(value = "SELECT * FROM criterion  WHERE inspection_id = ?1 and status = 'A' ORDER BY  criterion_start DESC ", nativeQuery = true)
 	List<Criterion> findListCriterionByInspectionId(Long inspectionId);
 	
+	@Query(value = "SELECT * FROM criterion  WHERE status = 'A' ORDER BY  criterion_start DESC ", nativeQuery = true)
+	List<Criterion> findListCriterionByInspectionIdALL();
+	
 }

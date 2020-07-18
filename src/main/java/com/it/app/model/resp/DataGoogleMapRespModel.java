@@ -15,7 +15,15 @@ public class DataGoogleMapRespModel {
 		private String assessmentId;
 		private String assessmentDetail;
 		private String community;
+		private String lavel;
+		private String inspectionsName;
 		
+		public String getLavel() {
+			return lavel;
+		}
+		public void setLavel(String lavel) {
+			this.lavel = lavel;
+		}
 		public String getCommunity() {
 			return community;
 		}
@@ -63,6 +71,12 @@ public class DataGoogleMapRespModel {
 		}
 		public void setUserId(String userId) {
 			this.userId = userId;
+		}
+		public String getInspectionsName() {
+			return inspectionsName;
+		}
+		public void setInspectionsName(String inspectionsName) {
+			this.inspectionsName = inspectionsName;
 		}
 		
 	}

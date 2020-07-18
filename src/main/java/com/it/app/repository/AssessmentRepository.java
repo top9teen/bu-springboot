@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import com.it.app.entity.Assessment;
 
 public interface AssessmentRepository extends JpaRepository<Assessment, Long>{
-	@Query(value = "SELECT * FROM assessment  WHERE user_id = ?1 and inspection_id = ?2 order by create_date DESC LIMIT 10 ", nativeQuery = true)
+	@Query(value = "SELECT * FROM assessment  WHERE user_id = ?1 and inspection_id = ?2 order by create_date DESC ", nativeQuery = true)
 	List<Assessment> findListAssessmentByUserId(Long userId,Long inspectionId);
 	
 	@Query(value = "SELECT * FROM assessment  WHERE inspection_id = ?1  ", nativeQuery = true)
@@ -20,5 +20,8 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long>{
 	
 	@Query(value = "SELECT * FROM assessment  WHERE assessment_id = ?1 ", nativeQuery = true)
 	Optional<Assessment> findOneByAssessmentId(Long assessmentId);
+	
+	@Query(value = "SELECT * FROM assessment  WHERE user_id = ?1 ORDER BY create_date limit 1", nativeQuery = true)
+	Optional<Assessment> findAssessmentByInspectionIdAndUserIdALL(Long userId);
 	
 }
