@@ -27,6 +27,7 @@ import com.it.app.model.AssessmentReqModel;
 import com.it.app.model.ChoiceModel;
 import com.it.app.model.CriterionModel;
 import com.it.app.model.QuestionModel;
+import com.it.app.model.ReportConclusionBean;
 import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
@@ -746,6 +747,50 @@ public class AssessService {
 			break;
 		}
 		return result;
+	}
+
+	public List<ReportConclusionBean> getReportConclusion(SearchReportReqModel searchReportReqModel) {
+		// TODO Auto-generated method stub
+		List<ReportConclusionBean> listBean = new ArrayList<ReportConclusionBean>();
+		ReportConclusionBean bean = new ReportConclusionBean();
+		List<String> listCommunity = new ArrayList<String>();
+		if (StringUtils.isNotBlank(searchReportReqModel.getCommunity())) {
+			// not null
+			System.out.println("not null : " + searchReportReqModel.getCommunity());
+			List<UserProfile> list = userProfileRepository.findByCommunity(searchReportReqModel.getCommunity());
+			for (UserProfile userProfile : list) {
+				System.out.println("sdad: " + getCommunity(userProfile.getCommunity()));
+			}
+		} else {
+			// null or ''
+			List<UserProfile> list = userProfileRepository.findByIsNotNullCommunity();
+			for (UserProfile userProfile : list) {
+				if (!listCommunity.contains(userProfile.getCommunity())) {
+					listCommunity.add(userProfile.getCommunity());
+				}
+			}
+		}
+		for (String value : listCommunity) {
+			bean = new ReportConclusionBean();
+			System.out.println(value + " : "+ getCommunity(value));
+			List<String> listCom = userProfileRepository.findByUserIdCommunity(value);
+			List<String> listsAssess = new ArrayList<String>();
+			List<Assessment> assessment = assessmentRepository.findByInUserId(listCom);
+			System.out.println("assessment : " + assessment.size());
+			for (Assessment valueAssess : assessment) {
+				if (!listsAssess.contains(valueAssess.getInspetionDetail())) {
+					listsAssess.add(valueAssess.getInspetionDetail());
+					bean.setInspectionId(listsAssess);
+				}
+			}
+			
+			
+			bean.setCommunity(getCommunity(value));
+			bean.setMember(listCom.size());
+			listBean.add(bean);
+		}
+		
+		return listBean;
 	}
 }
 

@@ -9,6 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import com.it.app.entity.Assessment;
 
 public interface AssessmentRepository extends JpaRepository<Assessment, Long>{
+	
+	List<Assessment> findByUserId(Long userId);
+		
+	@Query(value = "SELECT * FROM assessment WHERE user_id IN ?1 ", nativeQuery = true)
+	List<Assessment> findByInUserId(List<String> userId);
+	
 	@Query(value = "SELECT * FROM assessment  WHERE user_id = ?1 and inspection_id = ?2 order by create_date DESC ", nativeQuery = true)
 	List<Assessment> findListAssessmentByUserId(Long userId,Long inspectionId);
 	

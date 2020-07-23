@@ -3,6 +3,7 @@ package com.it.app.controller;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.it.app.manager.RestManager;
 import com.it.app.model.AssessmentReqModel;
+import com.it.app.model.ReportConclusionBean;
 import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
@@ -170,6 +172,11 @@ public class AssessController  implements Serializable{
 		RestManager manager = new RestManager();
 		manager.addResult(assessService.getDataMapByInspectionId(searchReportReqModel));
 		return manager.getResult();
+	}
+	
+	@PostMapping(value = "/get-report-conclusion")
+	public List<ReportConclusionBean> getReportConclusion(@RequestBody SearchReportReqModel searchReportReqModel)  {
+		return assessService.getReportConclusion(searchReportReqModel);
 	}
 //	@GetMapping(value = "/print-report/{assessmentId}")
 //	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
