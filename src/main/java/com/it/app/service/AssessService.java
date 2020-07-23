@@ -759,7 +759,21 @@ public class AssessService {
 			System.out.println("not null : " + searchReportReqModel.getCommunity());
 			List<UserProfile> list = userProfileRepository.findByCommunity(searchReportReqModel.getCommunity());
 			for (UserProfile userProfile : list) {
-				System.out.println("sdad: " + getCommunity(userProfile.getCommunity()));
+				bean = new ReportConclusionBean();
+				System.out.println(userProfile.getCommunity() + " : "+ getCommunity(userProfile.getCommunity()));
+				List<String> listCom = userProfileRepository.findByUserIdCommunity(userProfile.getCommunity());
+				List<String> listsAssess = new ArrayList<String>();
+				List<Assessment> assessment = assessmentRepository.findByInUserId(listCom);
+				System.out.println("assessment : " + assessment.size());
+				for (Assessment valueAssess : assessment) {
+					if (!listsAssess.contains(valueAssess.getInspetionDetail())) {
+						listsAssess.add(valueAssess.getInspetionDetail());
+						bean.setInspectionId(listsAssess);
+					}
+				}
+				bean.setCommunity(getCommunity(userProfile.getCommunity()));
+				bean.setMember(listCom.size());
+				listBean.add(bean);
 			}
 		} else {
 			// null or ''
@@ -783,8 +797,6 @@ public class AssessService {
 					bean.setInspectionId(listsAssess);
 				}
 			}
-			
-			
 			bean.setCommunity(getCommunity(value));
 			bean.setMember(listCom.size());
 			listBean.add(bean);
