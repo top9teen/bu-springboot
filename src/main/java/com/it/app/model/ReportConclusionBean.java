@@ -5,7 +5,7 @@ import java.util.List;
 public class ReportConclusionBean {
 
 	private String community;
-	private List<String> inspectionId;
+	private List<InspectionId> inspectionId;
 	private int member;
 
 	public String getCommunity() {
@@ -16,13 +16,6 @@ public class ReportConclusionBean {
 		this.community = community;
 	}
 
-	public List<String> getInspectionId() {
-		return inspectionId;
-	}
-
-	public void setInspectionId(List<String> inspectionId) {
-		this.inspectionId = inspectionId;
-	}
 
 	public int getMember() {
 		return member;
@@ -32,4 +25,31 @@ public class ReportConclusionBean {
 		this.member = member;
 	}
 
+	
+	public List<InspectionId> getInspectionId() {
+		return inspectionId;
+	}
+
+	public void setInspectionId(List<InspectionId> inspectionId) {
+		this.inspectionId = inspectionId;
+	}
+
+
+	public static class InspectionId {
+		private String name;
+		private int member;
+		public String getName() {
+			return name;
+		}
+		public void setName(String name) {
+			this.name = name;
+		}
+		public int getMember() {
+			return member;
+		}
+		public void setMember(int member) {
+			this.member = member;
+		}
+		
+	}
 }

@@ -2,11 +2,14 @@ package com.it.app.service;
 
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -28,6 +31,7 @@ import com.it.app.model.ChoiceModel;
 import com.it.app.model.CriterionModel;
 import com.it.app.model.QuestionModel;
 import com.it.app.model.ReportConclusionBean;
+import com.it.app.model.ReportConclusionBean.InspectionId;
 import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
@@ -40,6 +44,7 @@ import com.it.app.model.resp.CriterionRespModel;
 import com.it.app.model.resp.DataGoogleMapRespModel;
 import com.it.app.model.resp.DataGoogleMapRespModel.DataCriterionDetail;
 import com.it.app.model.resp.DataGoogleMapRespModel.DataGoogleDetail;
+import com.it.app.model.resp.DataGoogleMapRespModel2;
 import com.it.app.model.resp.InspectionRespModel;
 import com.it.app.repository.AssessmentRepository;
 import com.it.app.repository.BaseRepository;
@@ -377,6 +382,14 @@ public class AssessService {
 		NEW FUNCTION IF CHECK DATA AND GET DATA  ON 2020/07/18
 		*/  
 		
+		if (searchReportReqModel.getDateStart() != null && searchReportReqModel.getDateStart().equalsIgnoreCase("")) {
+			searchReportReqModel.setDateStart("2001-01-01");
+		}
+		
+		if (searchReportReqModel.getDateEnd() != null && searchReportReqModel.getDateEnd().equalsIgnoreCase("")) {
+			searchReportReqModel.setDateEnd("2099-12-31");
+		}
+		
 		if (searchReportReqModel.getInspectionId() != null && searchReportReqModel.getInspectionId().equalsIgnoreCase("")) {
 			countUserId = new ArrayList<>();
 			criterionS 	= new ArrayList<>();
@@ -398,9 +411,9 @@ public class AssessService {
 					
 					Optional<Assessment> opAssessment = null;
 					if (searchReportReqModel.getInspectionId() != null && searchReportReqModel.getInspectionId().equalsIgnoreCase("")) {
-						 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserIdALL(Long.parseLong(userId.toString()));
+						 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserIdALL(Long.parseLong(userId.toString()), searchReportReqModel.getDateStart(), searchReportReqModel.getDateEnd());
 					} else {
-						 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()));
+						 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()), searchReportReqModel.getDateStart(), searchReportReqModel.getDateEnd());
 					}
 
 					Optional<UserProfile> opUserProfile = null;
@@ -423,6 +436,7 @@ public class AssessService {
 						dataGoogleDetail.setCommunity(getCommunity(opUserProfile.get().getCommunity()));
 						dataGoogleDetail.setLavel(String.valueOf(markerKey));
 						dataGoogleDetail.setInspectionsName(ins.getInspectionName());
+						dataGoogleDetail.setStrdate(opAssessment.get().getCreateDate());
 						if (searchReportReqModel.getLavel() != null && !searchReportReqModel.getLavel().equalsIgnoreCase("")) {
 							if (searchReportReqModel.getLavel().equalsIgnoreCase(String.valueOf(markerKey))) {
 								dataGoogleDetails.add(dataGoogleDetail);
@@ -459,9 +473,9 @@ public class AssessService {
 				
 				Optional<Assessment> opAssessment = null;
 				if (searchReportReqModel.getInspectionId() != null && searchReportReqModel.getInspectionId().equalsIgnoreCase("")) {
-					 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserIdALL(Long.parseLong(userId.toString()));
+					 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserIdALL(Long.parseLong(userId.toString()), searchReportReqModel.getDateStart(), searchReportReqModel.getDateEnd());
 				} else {
-					 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()));
+					 opAssessment =  assessmentRepository.findAssessmentByInspectionIdAndUserId(Long.parseLong(userId.toString()), getLong(searchReportReqModel.getInspectionId()), searchReportReqModel.getDateStart(), searchReportReqModel.getDateEnd());
 				}
 
 				Optional<UserProfile> opUserProfile = null;
@@ -484,6 +498,7 @@ public class AssessService {
 					dataGoogleDetail.setCommunity(getCommunity(opUserProfile.get().getCommunity()));
 					dataGoogleDetail.setLavel(String.valueOf(markerKey));
 					dataGoogleDetail.setInspectionsName(inspections.get().getInspectionName());
+					dataGoogleDetail.setStrdate(opAssessment.get().getCreateDate());
 					if (searchReportReqModel.getLavel() != null && !searchReportReqModel.getLavel().equalsIgnoreCase("")) {
 						if (searchReportReqModel.getLavel().equalsIgnoreCase(String.valueOf(markerKey))) {
 							dataGoogleDetails.add(dataGoogleDetail);
@@ -768,11 +783,11 @@ public class AssessService {
 				for (Assessment valueAssess : assessment) {
 					if (!listsAssess.contains(valueAssess.getInspetionDetail())) {
 						listsAssess.add(valueAssess.getInspetionDetail());
-						bean.setInspectionId(listsAssess);
+//						bean.setInspectionId(listsAssess);
 					}
 				}
 				bean.setCommunity(getCommunity(userProfile.getCommunity()));
-				bean.setMember(listCom.size());
+				bean.setMember(bean.getMember() + listCom.size());
 				listBean.add(bean);
 			}
 		} else {
@@ -794,14 +809,80 @@ public class AssessService {
 			for (Assessment valueAssess : assessment) {
 				if (!listsAssess.contains(valueAssess.getInspetionDetail())) {
 					listsAssess.add(valueAssess.getInspetionDetail());
-					bean.setInspectionId(listsAssess);
+//					bean.setInspectionId(listsAssess);
 				}
 			}
 			bean.setCommunity(getCommunity(value));
-			bean.setMember(listCom.size());
+			bean.setMember(bean.getMember() + listCom.size());
 			listBean.add(bean);
 		}
 		
+		return listBean;
+	}
+	
+	
+	// UPDATE
+	public List<ReportConclusionBean> getReportConclusiontoUI(ArrayList<DataGoogleMapRespModel2> data) {
+		// TODO Auto-generated method stub
+		
+		List<ReportConclusionBean> listBean = new ArrayList<ReportConclusionBean>();
+		ReportConclusionBean setdata = new ReportConclusionBean();
+		List<InspectionId> listinsp = new ArrayList<InspectionId>();
+		InspectionId insp = new InspectionId();
+		
+		HashMap<String, HashMap<String, Integer>> setmap = new HashMap<String, HashMap<String,Integer>>();
+		HashMap<String, Integer> setmap2 = new HashMap<String, Integer>();
+		ArrayList<String> Community = new ArrayList<String>();
+		try {
+			for (DataGoogleMapRespModel2 ssdata : data) {
+				if (setmap.containsKey(ssdata.getCommunity())) {
+					setmap2 = new HashMap<String, Integer>();
+					setmap2 = setmap.get(ssdata.getCommunity());
+					if (setmap2.containsKey(ssdata.getInspectionsName())) {
+						setmap2.put(ssdata.getInspectionsName(), setmap2.get(ssdata.getInspectionsName()) + 1);
+					} else {
+						setmap2.put(ssdata.getInspectionsName(), 1);
+						setmap.put(ssdata.getCommunity(), setmap2);
+					}
+					
+				} else {
+					setmap2 = new HashMap<String, Integer>();
+					setmap2.put(ssdata.getInspectionsName(), 1);
+					setmap.put(ssdata.getCommunity(), setmap2);
+				}
+				
+				if (!Community.contains(ssdata.getCommunity())) {
+					Community.add(ssdata.getCommunity());
+				}
+			}
+						
+			if (setmap.size() > 0) {
+				for (String key: setmap.keySet()) {
+					setdata = new ReportConclusionBean();
+					listinsp = new ArrayList<InspectionId>();
+					setmap2 = new HashMap<String, Integer>();
+					int member = 0;
+					setmap2 = setmap.get(key);
+					setdata.setCommunity(key);
+					
+					for(String key2: setmap2.keySet()){						
+				    	insp = new InspectionId();
+				    	insp.setName(key2);
+				    	insp.setMember(setmap2.get(key2));
+				    	member = member + setmap2.get(key2);
+				    	listinsp.add(insp);
+					}
+					setdata.setMember(member);
+					setdata.setInspectionId(listinsp);
+					
+					listBean.add(setdata);
+				}
+			}
+			
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return listBean;
 	}
 }

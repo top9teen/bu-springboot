@@ -21,13 +21,13 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long>{
 	@Query(value = "SELECT * FROM assessment  WHERE inspection_id = ?1  ", nativeQuery = true)
 	List<Assessment> findListAssessmentByInspectionId(Long inspectionId);
 	
-	@Query(value = "SELECT * FROM assessment  WHERE user_id = ?1 and inspection_id = ?2 ORDER BY create_date limit 1", nativeQuery = true)
-	Optional<Assessment> findAssessmentByInspectionIdAndUserId(Long userId,Long inspectionId);
+	@Query(value = "SELECT * FROM assessment  WHERE user_id = :userId and inspection_id = :inspectionId AND create_date BETWEEN :dateStart AND :dateEnd ORDER BY create_date limit 1", nativeQuery = true)
+	Optional<Assessment> findAssessmentByInspectionIdAndUserId(Long userId,Long inspectionId, String dateStart , String dateEnd);
 	
 	@Query(value = "SELECT * FROM assessment  WHERE assessment_id = ?1 ", nativeQuery = true)
 	Optional<Assessment> findOneByAssessmentId(Long assessmentId);
 	
-	@Query(value = "SELECT * FROM assessment  WHERE user_id = ?1 ORDER BY create_date limit 1", nativeQuery = true)
-	Optional<Assessment> findAssessmentByInspectionIdAndUserIdALL(Long userId);
+	@Query(value = "SELECT * FROM assessment  WHERE user_id = :userId  AND create_date BETWEEN :dateStart AND :dateEnd ORDER BY create_date limit 1", nativeQuery = true)
+	Optional<Assessment> findAssessmentByInspectionIdAndUserIdALL(Long userId, String dateStart , String dateEnd);
 	
 }

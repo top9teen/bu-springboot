@@ -3,6 +3,7 @@ package com.it.app.controller;
 import java.io.ByteArrayInputStream;
 import java.io.Serializable;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +27,7 @@ import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
 import com.it.app.model.req.SearchReportReqModel;
+import com.it.app.model.resp.DataGoogleMapRespModel2;
 import com.it.app.service.AssessService;
 
 import io.swagger.annotations.ApiResponse;
@@ -175,8 +177,8 @@ public class AssessController  implements Serializable{
 	}
 	
 	@PostMapping(value = "/get-report-conclusion")
-	public List<ReportConclusionBean> getReportConclusion(@RequestBody SearchReportReqModel searchReportReqModel)  {
-		return assessService.getReportConclusion(searchReportReqModel);
+	public List<ReportConclusionBean> getReportConclusion(@RequestBody ArrayList<DataGoogleMapRespModel2> data)  {
+		return assessService.getReportConclusiontoUI(data);
 	}
 //	@GetMapping(value = "/print-report/{assessmentId}")
 //	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })

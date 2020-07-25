@@ -1,7 +1,7 @@
 package com.it.app.model.resp;
 
+import java.sql.Timestamp;
 import java.util.List;
-
 public class DataGoogleMapRespModel {
 	private List<DataGoogleDetail> dataGoogleDetails;
 	private List<DataCriterionDetail> dataCriterionDetails;
@@ -17,6 +17,7 @@ public class DataGoogleMapRespModel {
 		private String community;
 		private String lavel;
 		private String inspectionsName;
+		private Timestamp strdate;
 		
 		public String getLavel() {
 			return lavel;
@@ -77,6 +78,12 @@ public class DataGoogleMapRespModel {
 		}
 		public void setInspectionsName(String inspectionsName) {
 			this.inspectionsName = inspectionsName;
+		}
+		public Timestamp getStrdate() {
+			return strdate;
+		}
+		public void setStrdate(Timestamp strdate) {
+			this.strdate = strdate;
 		}
 		
 	}
