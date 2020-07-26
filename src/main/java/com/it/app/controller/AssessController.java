@@ -27,6 +27,7 @@ import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
 import com.it.app.model.req.SearchReportReqModel;
+import com.it.app.model.req.SearchReportReqModel2;
 import com.it.app.model.resp.DataGoogleMapRespModel2;
 import com.it.app.service.AssessService;
 
@@ -206,6 +207,15 @@ public class AssessController  implements Serializable{
 	return ResponseEntity.ok()
 			.contentType(MediaType.APPLICATION_PDF)
 			.body(new InputStreamResource(new ByteArrayInputStream(bytePdf)));
+	}
+	
+	
+	@PostMapping(value = "/get-datamapUser")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
+	public Object getDataMapUser(@Valid @RequestBody SearchReportReqModel2 searchReportReqModel) {
+		RestManager manager = new RestManager();
+		manager.addResult(assessService.getDataMapUser(searchReportReqModel));
+		return manager.getResult();
 	}
 	
 }

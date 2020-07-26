@@ -10,6 +10,11 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -36,6 +41,7 @@ import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
 import com.it.app.model.req.SearchReportReqModel;
+import com.it.app.model.req.SearchReportReqModel2;
 import com.it.app.model.resp.AssessRespModel;
 import com.it.app.model.resp.AssessmentGroupRespModel;
 import com.it.app.model.resp.AssessmentRespModel;
@@ -884,6 +890,47 @@ public class AssessService {
 			e.printStackTrace();
 		}
 		return listBean;
+	}
+	
+	public Object getDataMapUser(SearchReportReqModel2 searchReportReqModel) {
+		DataGoogleMapRespModel resp = new DataGoogleMapRespModel();
+		List<DataGoogleDetail> dataGoogleDetails = new ArrayList<>();
+		DataGoogleDetail setdata = new DataGoogleDetail();
+		List<Object[]> Bigdata = new ArrayList<>();
+		System.out.println("Dsadsadsadsad");
+		Bigdata =  baseRepository.getDataMapUser(searchReportReqModel);
+		for (Object[] obj : Bigdata) {
+			System.out.println("222");
+			 setdata = new DataGoogleDetail();
+			if(String.valueOf(obj[0]) != null){
+				setdata.setName(String.valueOf(obj[0]));
+			}
+			if(String.valueOf(obj[1]) != null){
+				setdata.setAssessmentDetail(String.valueOf(obj[1]));
+			}
+			if(String.valueOf(obj[2]) != null){
+				setdata.setStrdate(Timestamp.valueOf(String.valueOf(obj[2])));
+			}
+			if(String.valueOf(obj[3]) != null){
+				setdata.setInspectionsName(String.valueOf(obj[3]));
+			}
+			if(String.valueOf(obj[4]) != null){
+				setdata.setAssessmentId(String.valueOf(obj[4]));	
+			}
+			if(String.valueOf(obj[5]) != null){
+				setdata.setCommunity(getCommunity(String.valueOf(obj[5])));
+			}
+			if(String.valueOf(obj[6]) != null){
+				int markerKey = 1;
+				List<Criterion> criterionS = new ArrayList<>();
+				criterionS 	=  criterionRepository.findListCriterionByInspectionId(getLong(String.valueOf(obj[7])));	
+				markerKey = mapGetCriterion(criterionS, getLong(String.valueOf(obj[6])));
+				setdata.setLavel(String.valueOf(markerKey));
+			}
+			dataGoogleDetails.add(setdata);
+		}
+		resp.setDataGoogleDetails(dataGoogleDetails);
+		return resp;
 	}
 }
 
