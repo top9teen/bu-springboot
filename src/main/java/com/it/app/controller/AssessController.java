@@ -1,12 +1,17 @@
 package com.it.app.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,15 +29,20 @@ import com.it.app.manager.RestManager;
 import com.it.app.model.AssessmentReqModel;
 import com.it.app.model.ReportConclusionBean;
 import com.it.app.model.req.CriterionReqModel;
+import com.it.app.model.req.DataGoogleDetailsModel;
+import com.it.app.model.req.DataGoogleDetailsModelStr;
 import com.it.app.model.req.InspectionReqModel;
 import com.it.app.model.req.QuestionReqModel;
 import com.it.app.model.req.SearchReportReqModel;
 import com.it.app.model.req.SearchReportReqModel2;
 import com.it.app.model.resp.DataGoogleMapRespModel2;
 import com.it.app.service.AssessService;
+import com.it.app.service.ReportComplete;
 
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.export.JRXlsExporter;
 
 @RestController
 @RequestMapping("/assess")
@@ -218,4 +228,58 @@ public class AssessController  implements Serializable{
 		return manager.getResult();
 	}
 	
+		
+	@Autowired
+	ReportComplete reportComplete;
+	
+	JRXlsExporter exporter = new JRXlsExporter();
+	HashMap<String, List<DataGoogleDetailsModelStr>> Datamap = new HashMap<>();
+	
+	@PostMapping(value = "/completeReport/GenexportData/{userID}", consumes = "application/json", produces = "application/json")
+	public String GenexportExcel(@PathVariable("userID") String userID, @RequestBody List<DataGoogleDetailsModel> bean)
+			throws JRException, IOException {
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
+		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
+		DataGoogleDetailsModelStr dataMock = new DataGoogleDetailsModelStr();
+		for (DataGoogleDetailsModel data : bean) {
+			dataMock = new DataGoogleDetailsModelStr();
+			dataMock.setAssessmentDetail(data.getAssessmentDetail());
+			dataMock.setCommunity(data.getCommunity());
+			dataMock.setInspectionsName(data.getInspectionsName());
+			dataMock.setLavel(data.getLavel());
+			dataMock.setName(data.getName());
+			dataMock.setStrdate(formatter.format(data.getStrdate()));
+//			dataMock.setCreatedDt(formatter.format(data.getCreatedDt()));
+//			dataMock.setCustomerType(data.getCustomerType());
+//			dataMock.setExpectedDt(formatter.format(data.getExpectedDt()));
+//			dataMock.setProjectCode(data.getProjectCode());
+//			dataMock.setProjectId(data.getProjectId());
+//			dataMock.setProjectName(data.getProjectName());
+//			dataMock.setProjectOwner(data.getProjectOwner());
+			listJson.add(dataMock);
+		}
+		Datamap.put(userID, listJson);
+		return "S";
+	}
+	
+	@GetMapping(value = "/completeReport/exportExcel/{userID}")
+	public void exportExcel(HttpServletResponse response, @PathVariable("userID") String userID)
+			throws JRException, IOException {
+		exporter = new JRXlsExporter();
+		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
+		listJson = Datamap.get(userID);
+		exporter = reportComplete.exportExcel(response, listJson);
+		exporter.exportReport();
+		Datamap.remove(userID);
+	}
+
+	@GetMapping(value = "/completeReport/exportPDF/{userID}")
+	public void exportPDF(HttpServletResponse response, @PathVariable("userID") String userID)
+			throws JRException, IOException {
+		exporter = new JRXlsExporter();
+		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
+		listJson = Datamap.get(userID);
+		reportComplete.exportPDF(response, listJson);
+		Datamap.remove(userID);
+	}
 }

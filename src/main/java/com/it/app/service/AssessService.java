@@ -897,10 +897,8 @@ public class AssessService {
 		List<DataGoogleDetail> dataGoogleDetails = new ArrayList<>();
 		DataGoogleDetail setdata = new DataGoogleDetail();
 		List<Object[]> Bigdata = new ArrayList<>();
-		System.out.println("Dsadsadsadsad");
 		Bigdata =  baseRepository.getDataMapUser(searchReportReqModel);
 		for (Object[] obj : Bigdata) {
-			System.out.println("222");
 			 setdata = new DataGoogleDetail();
 			if(String.valueOf(obj[0]) != null){
 				setdata.setName(String.valueOf(obj[0]));

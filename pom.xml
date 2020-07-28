@@ -54,6 +54,7 @@
 		</dependency>
 
 
+
 		<!-- https://mvnrepository.com/artifact/io.swagger/swagger-annotations -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -127,9 +128,29 @@
 		<dependency>
 			<groupId>net.sf.jasperreports</groupId>
 			<artifactId>jasperreports</artifactId>
-			<version>4.5.1</version>
+			<version>6.4.0</version>
 		</dependency>
 
+		<dependency>
+ <groupId>com.itextpdf</groupId>
+ <artifactId>itext-pdfa</artifactId>
+ <version>5.5.0</version>
+</dependency>
+  <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi-ooxml</artifactId>
+        <version>3.8</version>
+    </dependency>
+  <dependency>
+        <groupId>org.apache.poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>3.11</version>
+    </dependency>
+				<dependency>
+			<groupId>joda-time</groupId>
+			<artifactId>joda-time</artifactId>
+			</dependency>
+			
 	</dependencies>
 
 	<build>
