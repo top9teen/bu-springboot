@@ -71,10 +71,12 @@ public class ReportComplete {
 		String name = "Export"+dateString;
 		response.setContentType("application/pdf; charset=UTF-8");
 		response.setHeader("Content-Disposition", String.format("attachment; filename=" + name+".pdf"));
-		inputStream = this.getClass().getResourceAsStream("/jasper/completeTaskpdf.jrxml");
+		inputStream = this.getClass().getResourceAsStream("/jasper/completeTaskpd3.jrxml");
 		jasperReport = JasperCompileManager.compileReport(inputStream);
 		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
 		OutputStream out = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint,out);
 	}
+	
+	
 }

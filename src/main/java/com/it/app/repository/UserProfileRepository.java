@@ -26,4 +26,7 @@ public interface UserProfileRepository extends JpaRepository<UserProfile, Long>{
 
 	@Query(value = "SELECT * FROM user_profile WHERE community IS not NULL and community <> '' ", nativeQuery = true)
 	List<UserProfile> findByIsNotNullCommunity();
+	
+	@Query(value = "SELECT * FROM user_profile WHERE user_id = ?1 limit 1", nativeQuery = true)
+	UserProfile findOneByUserIdLimitOne(Long userId);
 }

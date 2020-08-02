@@ -8,6 +8,29 @@ public class DataGoogleDetailsModelStr {
 	private String lavel;
 	private String inspectionsName;
 	private String strdate;
+	private String address;
+	private String phoneNo;
+	private String cardId;
+	
+	
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+	public String getCardId() {
+		return cardId;
+	}
+	public void setCardId(String cardId) {
+		this.cardId = cardId;
+	}
 	public String getName() {
 		return name;
 	}

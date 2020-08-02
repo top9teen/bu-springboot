@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.MediaType;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.app.entity.UserProfile;
 import com.it.app.manager.RestManager;
 import com.it.app.model.AssessmentReqModel;
 import com.it.app.model.ReportConclusionBean;
@@ -36,6 +39,7 @@ import com.it.app.model.req.QuestionReqModel;
 import com.it.app.model.req.SearchReportReqModel;
 import com.it.app.model.req.SearchReportReqModel2;
 import com.it.app.model.resp.DataGoogleMapRespModel2;
+import com.it.app.repository.UserProfileRepository;
 import com.it.app.service.AssessService;
 import com.it.app.service.ReportComplete;
 
@@ -52,7 +56,9 @@ public class AssessController  implements Serializable{
 
 	@Autowired
 	private AssessService assessService;
-
+	@Autowired
+	UserProfileRepository userProfileRepo;
+	
 	@GetMapping(value = { "/list-inspection" })
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
 	public Object listInspection() {
@@ -212,8 +218,7 @@ public class AssessController  implements Serializable{
 	@GetMapping(value = "/print-report/{assessmentId}")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
 	public Object printReport(@PathVariable("assessmentId") String assessmentId) throws ParseException {
-		byte[] bytePdf= assessService.printReport(assessmentId);
-		String name = "assessment.pdf";
+		byte[] bytePdf= assessService.printReport( assessmentId);
 	return ResponseEntity.ok()
 			.contentType(MediaType.APPLICATION_PDF)
 			.body(new InputStreamResource(new ByteArrayInputStream(bytePdf)));
@@ -242,20 +247,31 @@ public class AssessController  implements Serializable{
 		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
 		DataGoogleDetailsModelStr dataMock = new DataGoogleDetailsModelStr();
 		for (DataGoogleDetailsModel data : bean) {
+			
+			/****************************************************************
+			 * GET PROFILE USER
+			 ****************************************************************/
+			UserProfile pro = new UserProfile();
+			pro = userProfileRepo.findOneByUserIdLimitOne(getLong(data.getUserId()));
+			/****************************************************************
+			 * GET PROFILE USER
+			 ****************************************************************/	
 			dataMock = new DataGoogleDetailsModelStr();
-			dataMock.setAssessmentDetail(data.getAssessmentDetail());
-			dataMock.setCommunity(data.getCommunity());
-			dataMock.setInspectionsName(data.getInspectionsName());
-			dataMock.setLavel(data.getLavel());
-			dataMock.setName(data.getName());
-			dataMock.setStrdate(formatter.format(data.getStrdate()));
-//			dataMock.setCreatedDt(formatter.format(data.getCreatedDt()));
-//			dataMock.setCustomerType(data.getCustomerType());
-//			dataMock.setExpectedDt(formatter.format(data.getExpectedDt()));
-//			dataMock.setProjectCode(data.getProjectCode());
-//			dataMock.setProjectId(data.getProjectId());
-//			dataMock.setProjectName(data.getProjectName());
-//			dataMock.setProjectOwner(data.getProjectOwner());
+			dataMock.setAssessmentDetail(data.getAssessmentDetail() != null  ? data.getAssessmentDetail() : "-");
+			dataMock.setCommunity(data.getCommunity() != null  ? data.getCommunity() : "-");
+			dataMock.setInspectionsName(data.getInspectionsName() != null  ? data.getInspectionsName() : "-");
+			dataMock.setLavel(data.getLavel() != null  ? data.getLavel() : "-");
+			dataMock.setName(data.getName() != null  ? data.getName() : "-");
+			dataMock.setStrdate(formatter.format(data.getStrdate()) != null  ? formatter.format(data.getStrdate()) : "-");
+			if (pro != null) {
+				dataMock.setPhoneNo(pro.getPhoneNo() != null  ? pro.getPhoneNo() : "-");
+				dataMock.setAddress(pro.getAddress() != null  ? pro.getAddress() : "-");
+				dataMock.setCardId(pro.getCardId() != null  ? pro.getCardId() : "-");
+			} else {
+				dataMock.setPhoneNo("-");
+				dataMock.setAddress("-");
+				dataMock.setCardId("-");
+			}
 			listJson.add(dataMock);
 		}
 		Datamap.put(userID, listJson);
@@ -282,4 +298,13 @@ public class AssessController  implements Serializable{
 		reportComplete.exportPDF(response, listJson);
 		Datamap.remove(userID);
 	}
+	
+	private Long getLong(String str) {
+		Long result = null;
+		if (!"null".equals(str) && null != str && StringUtils.isNotBlank(str)) {
+			result = Long.parseLong(str);
+		}
+		return result;
+	}
+	
 }

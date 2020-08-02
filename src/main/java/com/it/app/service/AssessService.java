@@ -1,20 +1,13 @@
 package com.it.app.service;
 
 import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
-
 import java.util.Optional;
 
 import org.apache.commons.lang3.StringUtils;
@@ -64,9 +57,11 @@ import com.it.app.utils.DateUtil;
 import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRPdfExporterParameter;
 
@@ -583,7 +578,15 @@ public class AssessService {
 //				JasperReport jasperReport = JasperCompileManager.compileReport(path);
 //				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, new JREmptyDataSource());
 				
-				JasperPrint jasperPrint = JasperFillManager.fillReport(this.getClass().getResourceAsStream("/jasper/report1.jasper"), param, new JREmptyDataSource());
+				InputStream inputStream = null;
+				JasperReport jasperReport = null;
+//				response.setContentType("application/pdf; charset=UTF-8");
+//				response.setHeader("Content-Disposition", String.format("attachment; filename=" + name+".pdf"));
+				inputStream = this.getClass().getResourceAsStream("/jasper/report1.jrxml");
+				jasperReport = JasperCompileManager.compileReport(inputStream);
+				JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, new JREmptyDataSource());
+				
+//				JasperPrint jasperPrint = JasperFillManager.fillReport(this.getClass().getResourceAsStream("/jasper/report1.jrxml"), param, new JREmptyDataSource());
 				byte[] temp = JasperExportManager.exportReportToPdf(jasperPrint);
 //				Path tempFile = Files.createTempFile("Assessment", ".pdf");
 //				if (Files.exists(tempFile)) {
