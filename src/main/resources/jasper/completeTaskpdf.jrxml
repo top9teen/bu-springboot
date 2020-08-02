@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with Jaspersoft Studio version 6.13.0.final using JasperReports Library version 6.13.0-46ada4d1be8f3c5985fd0b6146f3ed44caed6f05  -->
+<!-- Created with Jaspersoft Studio version 6.10.0.final using JasperReports Library version 6.10.0-unknown  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="ExportPdf" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="e236d935-21cc-4908-a209-13bb35e6b29e">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
 	<import value="org.apache.commons.codec.binary.*"/>
 	<import value="org.apache.commons.codec.binary.Base64"/>
+	<parameter name="nameH" class="java.lang.String"/>
 	<field name="name" class="java.lang.String"/>
 	<field name="assessmentDetail" class="java.lang.String"/>
 	<field name="community" class="java.lang.String"/>
 	<field name="lavel" class="java.lang.String"/>
 	<field name="inspectionsName" class="java.lang.String"/>
 	<field name="strdate" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
+	<field name="phoneNo" class="java.lang.String"/>
+	<field name="cardId" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<pageHeader>
 		<band height="80">
-			<staticText>
-				<reportElement x="1" y="25" width="801" height="30" uuid="f482b524-9840-4e31-a395-a93cff1d696b"/>
+			<textField>
+				<reportElement x="0" y="20" width="802" height="30" uuid="1d0c24cd-8c26-440c-99e6-9faa08634028"/>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="TH SarabunPSK" size="21" isBold="true"/>
 				</textElement>
-				<text><![CDATA[ประวัติผลการประเมินรายบุคลลย้อนหลัง]]></text>
-			</staticText>
+				<textFieldExpression><![CDATA[$P{nameH}]]></textFieldExpression>
+			</textField>
 		</band>
 	</pageHeader>
 	<columnHeader>
@@ -44,7 +48,7 @@
 				<text><![CDATA[ลำดับ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="40" y="0" width="140" height="40" backcolor="#B2D234" uuid="1dd5f381-b159-4e09-bb95-8d0fdba6b50f">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="40" y="0" width="120" height="40" backcolor="#B2D234" uuid="1dd5f381-b159-4e09-bb95-8d0fdba6b50f">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -60,7 +64,7 @@
 				<text><![CDATA[ชื่อ - สกุล]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="180" y="0" width="140" height="40" backcolor="#B2D234" uuid="63e6bc87-310b-4738-bdbe-2ff9b2275d6b">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="160" y="0" width="110" height="40" backcolor="#B2D234" uuid="63e6bc87-310b-4738-bdbe-2ff9b2275d6b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -76,7 +80,7 @@
 				<text><![CDATA[โรค]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="650" y="0" width="81" height="40" isPrintWhenDetailOverflows="true" backcolor="#B2D234" uuid="4acca7e7-d723-4f23-9153-9cb304f5c621">
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="600" y="0" width="81" height="40" isPrintWhenDetailOverflows="true" backcolor="#B2D234" uuid="4acca7e7-d723-4f23-9153-9cb304f5c621">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -93,7 +97,7 @@
 ประชาชน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="320" y="0" width="170" height="40" backcolor="#B2D234" uuid="e38de1a6-55bc-4b44-8b73-1783b066249d">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="270" y="0" width="170" height="40" backcolor="#B2D234" uuid="e38de1a6-55bc-4b44-8b73-1783b066249d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -108,38 +112,22 @@
 				</textElement>
 				<text><![CDATA[ผลการประเมิน]]></text>
 			</staticText>
-			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="731" y="0" width="71" height="40" backcolor="#B2D234" uuid="177ed861-d346-4e81-9412-40e8b75387e1">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="TH SarabunPSK" size="12" isBold="true" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[วันที่ประเมิน]]></text>
-			</staticText>
 			<textField evaluationTime="Report">
 				<reportElement x="768" y="-20" width="34" height="20" uuid="4cad73c3-83e4-4d73-a445-f961d364c1c7"/>
 				<textElement textAlignment="Left" verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="12"/>
+					<font fontName="TH SarabunPSK" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" ถึง " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="731" y="-20" width="37" height="20" uuid="df094656-7046-4b30-8f96-cfd09e44322e"/>
 				<textElement textAlignment="Right" verticalAlignment="Middle">
-					<font fontName="TH Sarabun New" size="12"/>
+					<font fontName="TH SarabunPSK" size="12"/>
 				</textElement>
 				<textFieldExpression><![CDATA["หน้า " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="490" y="0" width="80" height="40" backcolor="#B2D234" uuid="55ef4c60-79b1-466c-9da6-77e23133358a">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="440" y="0" width="80" height="40" backcolor="#B2D234" uuid="55ef4c60-79b1-466c-9da6-77e23133358a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -155,7 +143,7 @@
 				<text><![CDATA[ชุมชน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="570" y="0" width="80" height="40" backcolor="#B2D234" uuid="21b8a68b-e9b2-46a7-baf8-8dee3a6fb669">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="520" y="0" width="80" height="40" backcolor="#B2D234" uuid="21b8a68b-e9b2-46a7-baf8-8dee3a6fb669">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -170,11 +158,44 @@
 				</textElement>
 				<text><![CDATA[ที่อยู่]]></text>
 			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="731" y="0" width="71" height="40" backcolor="#B2D234" uuid="4f42740f-04a0-4c11-be4c-aa694b94e513">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[วันที่ประเมิน]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="681" y="0" width="50" height="40" backcolor="#B2D234" uuid="177ed861-d346-4e81-9412-40e8b75387e1">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[เบอร์
+โทร]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="20" splitType="Stretch">
-			<textField isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="0" y="0" width="40" height="20" isPrintWhenDetailOverflows="true" uuid="9dd10326-32e6-477a-be3d-efbec8776355"/>
 				<box>
 					<pen lineWidth="0.25"/>
@@ -188,8 +209,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="320" y="0" width="170" height="20" isPrintWhenDetailOverflows="true" uuid="5edd590f-cab2-4b4a-8249-2eae086637f9">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="270" y="0" width="170" height="20" uuid="5edd590f-cab2-4b4a-8249-2eae086637f9">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box padding="3">
@@ -202,10 +223,10 @@
 				<textElement textAlignment="Left" verticalAlignment="Middle">
 					<font fontName="TH SarabunPSK"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{assessmentDetail}.toString()]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{assessmentDetail}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="490" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="acfe3b87-feec-463f-8209-60c08e96bd4d"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="440" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="acfe3b87-feec-463f-8209-60c08e96bd4d"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -218,8 +239,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{community}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="570" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="15a655bb-c4ba-4687-a4cf-1845920c9c5f"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="520" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="15a655bb-c4ba-4687-a4cf-1845920c9c5f"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -230,23 +251,9 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="TH SarabunPSK"/>
 				</textElement>
-				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="650" y="0" width="81" height="20" isPrintWhenDetailOverflows="true" uuid="b81153dd-dbc3-4058-bde3-b6c3868b87f1"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="TH SarabunPSK"/>
-				</textElement>
-				<textFieldExpression><![CDATA["-"]]></textFieldExpression>
-			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
 				<reportElement stretchType="RelativeToTallestObject" x="731" y="0" width="71" height="20" isPrintWhenDetailOverflows="true" uuid="f078b404-54c6-4bb4-bfad-b488bba4d609"/>
 				<box>
 					<pen lineWidth="0.25"/>
@@ -260,8 +267,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{strdate}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="180" y="0" width="140" height="20" isPrintWhenDetailOverflows="true" uuid="4e0cb596-c5d4-44bc-a9e7-f5e3ce768480"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="160" y="0" width="110" height="20" isPrintWhenDetailOverflows="true" uuid="4e0cb596-c5d4-44bc-a9e7-f5e3ce768480"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -274,8 +281,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{inspectionsName}]]></textFieldExpression>
 			</textField>
-			<textField textAdjust="StretchHeight" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="140" height="20" isPrintWhenDetailOverflows="true" uuid="21607475-aaba-472b-b1c7-060f5420defc"/>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="120" height="20" isPrintWhenDetailOverflows="true" uuid="21607475-aaba-472b-b1c7-060f5420defc"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -287,6 +294,34 @@
 					<font fontName="TH SarabunPSK"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="600" y="0" width="81" height="20" isPrintWhenDetailOverflows="true" uuid="93d4f99d-5c5c-41c3-8a45-e620c458741d"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardId}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="681" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="b81153dd-dbc3-4058-bde3-b6c3868b87f1"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{phoneNo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

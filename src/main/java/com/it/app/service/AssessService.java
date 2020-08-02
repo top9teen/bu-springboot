@@ -928,6 +928,9 @@ public class AssessService {
 				markerKey = mapGetCriterion(criterionS, getLong(String.valueOf(obj[6])));
 				setdata.setLavel(String.valueOf(markerKey));
 			}
+			if(String.valueOf(obj[8]) != null){
+				setdata.setUserId(String.valueOf(obj[8]));
+			}
 			dataGoogleDetails.add(setdata);
 		}
 		resp.setDataGoogleDetails(dataGoogleDetails);

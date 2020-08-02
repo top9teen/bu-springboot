@@ -5,8 +5,10 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -59,7 +61,7 @@ public class ReportComplete {
 		return exporter;
 	}
 	
-	public 	void exportPDF(HttpServletResponse response, List<DataGoogleDetailsModelStr> DataList) throws JRException, IOException {
+	public 	void exportPDF(HttpServletResponse response, List<DataGoogleDetailsModelStr> DataList, String name2) throws JRException, IOException {
 		InputStream inputStream = null;
 		JasperReport jasperReport = null;
 		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss", Locale.US);
@@ -67,13 +69,15 @@ public class ReportComplete {
 		String dateString = format.format(new Date());
 
 		JRBeanCollectionDataSource dataSource = new JRBeanCollectionDataSource(DataList);
+		Map<String, Object> param = new HashMap<>();
+		param.put("nameH", name2);
 		
 		String name = "Export"+dateString;
 		response.setContentType("application/pdf; charset=UTF-8");
 		response.setHeader("Content-Disposition", String.format("attachment; filename=" + name+".pdf"));
-		inputStream = this.getClass().getResourceAsStream("/jasper/completeTaskpd3.jrxml");
+		inputStream = this.getClass().getResourceAsStream("/jasper/completeTaskpdf.jrxml");
 		jasperReport = JasperCompileManager.compileReport(inputStream);
-		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, null, dataSource);
+		JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, param, dataSource);
 		OutputStream out = response.getOutputStream();
 		JasperExportManager.exportReportToPdfStream(jasperPrint,out);
 	}

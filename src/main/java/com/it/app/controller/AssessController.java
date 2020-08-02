@@ -257,16 +257,16 @@ public class AssessController  implements Serializable{
 			 * GET PROFILE USER
 			 ****************************************************************/	
 			dataMock = new DataGoogleDetailsModelStr();
-			dataMock.setAssessmentDetail(data.getAssessmentDetail() != null  ? data.getAssessmentDetail() : "-");
-			dataMock.setCommunity(data.getCommunity() != null  ? data.getCommunity() : "-");
-			dataMock.setInspectionsName(data.getInspectionsName() != null  ? data.getInspectionsName() : "-");
-			dataMock.setLavel(data.getLavel() != null  ? data.getLavel() : "-");
-			dataMock.setName(data.getName() != null  ? data.getName() : "-");
-			dataMock.setStrdate(formatter.format(data.getStrdate()) != null  ? formatter.format(data.getStrdate()) : "-");
+			dataMock.setAssessmentDetail((data.getAssessmentDetail() != null && data.getAssessmentDetail() != "" ) ? data.getAssessmentDetail() : "-");
+			dataMock.setCommunity((data.getCommunity() != null && data.getCommunity() != "" ) ? data.getCommunity() : "-");
+			dataMock.setInspectionsName((data.getInspectionsName() != null && data.getInspectionsName() != "" ) ? data.getInspectionsName() : "-");
+			dataMock.setLavel((data.getLavel() != null && data.getLavel() != "" ) ? data.getLavel() : "-");
+			dataMock.setName((data.getName() != null && data.getName() != "" ) ? data.getName() : "-");
+			dataMock.setStrdate((formatter.format(data.getStrdate()) != null && formatter.format(data.getStrdate()) != "" ) ? formatter.format(data.getStrdate()) : "-");
 			if (pro != null) {
-				dataMock.setPhoneNo(pro.getPhoneNo() != null  ? pro.getPhoneNo() : "-");
-				dataMock.setAddress(pro.getAddress() != null  ? pro.getAddress() : "-");
-				dataMock.setCardId(pro.getCardId() != null  ? pro.getCardId() : "-");
+				dataMock.setPhoneNo((pro.getPhoneNo() != null && pro.getPhoneNo() != "" )  ? pro.getPhoneNo() : "-");
+				dataMock.setAddress((pro.getAddress() != null && pro.getAddress() != "" )  ? pro.getAddress() : "-");
+				dataMock.setCardId((pro.getCardId() != null && pro.getCardId() != ""  ) ? pro.getCardId() : "-");
 			} else {
 				dataMock.setPhoneNo("-");
 				dataMock.setAddress("-");
@@ -278,8 +278,8 @@ public class AssessController  implements Serializable{
 		return "S";
 	}
 	
-	@GetMapping(value = "/completeReport/exportExcel/{userID}")
-	public void exportExcel(HttpServletResponse response, @PathVariable("userID") String userID)
+	@GetMapping(value = "/completeReport/exportExcel/{userID}/{name}")
+	public void exportExcel(HttpServletResponse response, @PathVariable("userID") String userID, @PathVariable("name") String name)
 			throws JRException, IOException {
 		exporter = new JRXlsExporter();
 		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
@@ -289,13 +289,13 @@ public class AssessController  implements Serializable{
 		Datamap.remove(userID);
 	}
 
-	@GetMapping(value = "/completeReport/exportPDF/{userID}")
-	public void exportPDF(HttpServletResponse response, @PathVariable("userID") String userID)
+	@GetMapping(value = "/completeReport/exportPDF/{userID}/{name}")
+	public void exportPDF(HttpServletResponse response, @PathVariable("userID") String userID, @PathVariable("name") String name)
 			throws JRException, IOException {
 		exporter = new JRXlsExporter();
 		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
 		listJson = Datamap.get(userID);
-		reportComplete.exportPDF(response, listJson);
+		reportComplete.exportPDF(response, listJson,name);
 		Datamap.remove(userID);
 	}
 	

@@ -76,7 +76,8 @@ public class BaseRepository {
 				" a.assessment_id  as assessment_id, " + 
 				" up.community  as community, " +
 				" a.criterion_total as lavel, " + 
-				" a.inspection_id as inspection_id  " + 
+				" a.inspection_id as inspection_id,  " + 
+				" up.user_id as user_id  " + 
 				" FROM assessment a , user_profile up " + 
 				" where 1 = 1 " + 
 				" and a.user_id = up.user_id ");
