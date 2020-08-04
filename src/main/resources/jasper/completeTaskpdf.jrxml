@@ -4,6 +4,7 @@
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<import value="org.apache.commons.codec.binary.*"/>
 	<import value="org.apache.commons.codec.binary.Base64"/>
 	<parameter name="nameH" class="java.lang.String"/>
@@ -48,7 +49,7 @@
 				<text><![CDATA[ลำดับ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="40" y="0" width="120" height="40" backcolor="#B2D234" uuid="1dd5f381-b159-4e09-bb95-8d0fdba6b50f">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="121" y="0" width="120" height="40" backcolor="#B2D234" uuid="1dd5f381-b159-4e09-bb95-8d0fdba6b50f">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -64,7 +65,7 @@
 				<text><![CDATA[ชื่อ - สกุล]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="160" y="0" width="110" height="40" backcolor="#B2D234" uuid="63e6bc87-310b-4738-bdbe-2ff9b2275d6b">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="241" y="0" width="110" height="40" backcolor="#B2D234" uuid="63e6bc87-310b-4738-bdbe-2ff9b2275d6b">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -80,24 +81,7 @@
 				<text><![CDATA[โรค]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="600" y="0" width="81" height="40" isPrintWhenDetailOverflows="true" backcolor="#B2D234" uuid="4acca7e7-d723-4f23-9153-9cb304f5c621">
-					<property name="com.jaspersoft.studio.unit.width" value="px"/>
-				</reportElement>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="TH SarabunPSK" size="12" isBold="true" isItalic="false"/>
-				</textElement>
-				<text><![CDATA[รหัสบัตร
-ประชาชน]]></text>
-			</staticText>
-			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="270" y="0" width="170" height="40" backcolor="#B2D234" uuid="e38de1a6-55bc-4b44-8b73-1783b066249d">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="351" y="0" width="169" height="40" backcolor="#B2D234" uuid="e38de1a6-55bc-4b44-8b73-1783b066249d">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -127,7 +111,7 @@
 				<textFieldExpression><![CDATA["หน้า " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="440" y="0" width="80" height="40" backcolor="#B2D234" uuid="55ef4c60-79b1-466c-9da6-77e23133358a">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="520" y="0" width="80" height="40" backcolor="#B2D234" uuid="55ef4c60-79b1-466c-9da6-77e23133358a">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -143,7 +127,7 @@
 				<text><![CDATA[ชุมชน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="520" y="0" width="80" height="40" backcolor="#B2D234" uuid="21b8a68b-e9b2-46a7-baf8-8dee3a6fb669">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="600" y="0" width="80" height="40" backcolor="#B2D234" uuid="21b8a68b-e9b2-46a7-baf8-8dee3a6fb669">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -175,7 +159,7 @@
 				<text><![CDATA[วันที่ประเมิน]]></text>
 			</staticText>
 			<staticText>
-				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="681" y="0" width="50" height="40" backcolor="#B2D234" uuid="177ed861-d346-4e81-9412-40e8b75387e1">
+				<reportElement stretchType="RelativeToBandHeight" mode="Transparent" x="680" y="0" width="51" height="40" backcolor="#B2D234" uuid="177ed861-d346-4e81-9412-40e8b75387e1">
 					<property name="com.jaspersoft.studio.unit.width" value="px"/>
 				</reportElement>
 				<box>
@@ -190,6 +174,23 @@
 				</textElement>
 				<text><![CDATA[เบอร์
 โทร]]></text>
+			</staticText>
+			<staticText>
+				<reportElement stretchType="RelativeToTallestObject" mode="Transparent" x="40" y="0" width="81" height="40" isPrintWhenDetailOverflows="true" backcolor="#B2D234" uuid="4acca7e7-d723-4f23-9153-9cb304f5c621">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK" size="12" isBold="true" isItalic="false"/>
+				</textElement>
+				<text><![CDATA[รหัสบัตร
+ประชาชน]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -210,7 +211,7 @@
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="270" y="0" width="170" height="20" uuid="5edd590f-cab2-4b4a-8249-2eae086637f9">
+				<reportElement stretchType="RelativeToTallestObject" x="351" y="0" width="169" height="20" uuid="5edd590f-cab2-4b4a-8249-2eae086637f9">
 					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
 				</reportElement>
 				<box padding="3">
@@ -226,7 +227,7 @@
 				<textFieldExpression><![CDATA[$F{assessmentDetail}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="440" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="acfe3b87-feec-463f-8209-60c08e96bd4d"/>
+				<reportElement stretchType="RelativeToTallestObject" x="520" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="acfe3b87-feec-463f-8209-60c08e96bd4d"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -240,7 +241,7 @@
 				<textFieldExpression><![CDATA[$F{community}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="520" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="15a655bb-c4ba-4687-a4cf-1845920c9c5f"/>
+				<reportElement stretchType="RelativeToTallestObject" x="600" y="0" width="80" height="20" isPrintWhenDetailOverflows="true" uuid="15a655bb-c4ba-4687-a4cf-1845920c9c5f"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -268,7 +269,7 @@
 				<textFieldExpression><![CDATA[$F{strdate}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="160" y="0" width="110" height="20" isPrintWhenDetailOverflows="true" uuid="4e0cb596-c5d4-44bc-a9e7-f5e3ce768480"/>
+				<reportElement stretchType="RelativeToTallestObject" x="241" y="0" width="110" height="20" isPrintWhenDetailOverflows="true" uuid="4e0cb596-c5d4-44bc-a9e7-f5e3ce768480"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -282,7 +283,7 @@
 				<textFieldExpression><![CDATA[$F{inspectionsName}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="120" height="20" isPrintWhenDetailOverflows="true" uuid="21607475-aaba-472b-b1c7-060f5420defc"/>
+				<reportElement stretchType="RelativeToTallestObject" x="121" y="0" width="120" height="20" isPrintWhenDetailOverflows="true" uuid="21607475-aaba-472b-b1c7-060f5420defc"/>
 				<box topPadding="3" leftPadding="3" bottomPadding="3" rightPadding="3">
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -296,21 +297,7 @@
 				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
 			</textField>
 			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="600" y="0" width="81" height="20" isPrintWhenDetailOverflows="true" uuid="93d4f99d-5c5c-41c3-8a45-e620c458741d"/>
-				<box>
-					<pen lineWidth="0.25"/>
-					<topPen lineWidth="0.25"/>
-					<leftPen lineWidth="0.25"/>
-					<bottomPen lineWidth="0.25"/>
-					<rightPen lineWidth="0.25"/>
-				</box>
-				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font fontName="TH SarabunPSK"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{cardId}]]></textFieldExpression>
-			</textField>
-			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
-				<reportElement stretchType="RelativeToTallestObject" x="681" y="0" width="50" height="20" isPrintWhenDetailOverflows="true" uuid="b81153dd-dbc3-4058-bde3-b6c3868b87f1"/>
+				<reportElement stretchType="RelativeToTallestObject" x="680" y="0" width="51" height="20" isPrintWhenDetailOverflows="true" uuid="b81153dd-dbc3-4058-bde3-b6c3868b87f1"/>
 				<box>
 					<pen lineWidth="0.25"/>
 					<topPen lineWidth="0.25"/>
@@ -322,6 +309,20 @@
 					<font fontName="TH SarabunPSK"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{phoneNo}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" isBlankWhenNull="true">
+				<reportElement stretchType="RelativeToTallestObject" x="40" y="0" width="81" height="20" isPrintWhenDetailOverflows="true" uuid="93d4f99d-5c5c-41c3-8a45-e620c458741d"/>
+				<box>
+					<pen lineWidth="0.25"/>
+					<topPen lineWidth="0.25"/>
+					<leftPen lineWidth="0.25"/>
+					<bottomPen lineWidth="0.25"/>
+					<rightPen lineWidth="0.25"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="TH SarabunPSK"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{cardId}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
