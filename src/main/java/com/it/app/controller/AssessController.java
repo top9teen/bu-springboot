@@ -243,7 +243,7 @@ public class AssessController  implements Serializable{
 	@PostMapping(value = "/completeReport/GenexportData/{userID}", consumes = "application/json", produces = "application/json")
 	public String GenexportExcel(@PathVariable("userID") String userID, @RequestBody List<DataGoogleDetailsModel> bean)
 			throws JRException, IOException {
-		SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd", Locale.US);
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy", Locale.US);
 		List<DataGoogleDetailsModelStr> listJson = new ArrayList<>();
 		DataGoogleDetailsModelStr dataMock = new DataGoogleDetailsModelStr();
 		for (DataGoogleDetailsModel data : bean) {
