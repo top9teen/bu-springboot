@@ -12,6 +12,9 @@ public interface ChoiceRepository extends JpaRepository<Choice, Long> {
 	@Query(value = "SELECT * FROM choice  WHERE question_id = ?1 and status = 'A' order by choice_criterion desc ", nativeQuery = true)
 	List<Choice> findListChoiceByQuestionId(Long questionId);
 	
+	@Query(value = "SELECT * FROM choice  WHERE question_id = ?1 and status = 'A' order by choice_criterion desc ", nativeQuery = true)
+	List<Choice> findListChoiceByQuestionIdInt(Integer questionId);
+	
 	@Query(value = "DELETE FROM choice  WHERE question_id = ?1 ", nativeQuery = true)
 	void deleteByQuestionId(Long questionId);
 }

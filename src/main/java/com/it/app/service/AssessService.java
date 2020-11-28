@@ -23,6 +23,8 @@ import com.it.app.entity.Choice;
 import com.it.app.entity.Criterion;
 import com.it.app.entity.Inspection;
 import com.it.app.entity.Question;
+import com.it.app.entity.Question2Q;
+import com.it.app.entity.Question8Q;
 import com.it.app.entity.UserProfile;
 import com.it.app.model.AssessmentReqModel;
 import com.it.app.model.ChoiceModel;
@@ -50,6 +52,8 @@ import com.it.app.repository.BaseRepository;
 import com.it.app.repository.ChoiceRepository;
 import com.it.app.repository.CriterionRepository;
 import com.it.app.repository.InspectionRepository;
+import com.it.app.repository.Question2QRepository;
+import com.it.app.repository.Question8QRepository;
 import com.it.app.repository.QuestionRepository;
 import com.it.app.repository.UserProfileRepository;
 import com.it.app.utils.DateUtil;
@@ -93,6 +97,12 @@ public class AssessService {
 	
 	@Autowired
 	private BaseRepository baseRepository;
+	
+	@Autowired
+	private Question2QRepository question2QRepo;
+	
+	@Autowired
+	private Question8QRepository question8QRepo;
 
 	public Object listInspection() {
 		List<InspectionRespModel> inspectionRespModels = new ArrayList<>();
@@ -103,25 +113,63 @@ public class AssessService {
 		return inspectionRespModels;
 	}
 
-	public Object getInspectionById(String inspectionId) {
+	public Object getInspectionById(String inspectionId, Integer Q ) {
 		InspectionRespModel inspectionRespModel = null;
 		Optional<Inspection> inspection = inspectionRepository.findOngById(getLong(inspectionId));
 		if (inspection.isPresent()) {
 			inspectionRespModel = modelMapper.map(inspection.get(), InspectionRespModel.class);
-			List<Question> listQuestion = questionRepository.findListQuestionByInspectionId(getLong(inspectionId));
 			List<QuestionModel> questions = new ArrayList<>();
-			for (Question o : listQuestion) {
-				QuestionModel questionModel = new QuestionModel();
-				List<Choice> choices = choiceRepository.findListChoiceByQuestionId(o.getQuestionId());
-				List<ChoiceModel> choiceModels = new ArrayList<>();
-				for (Choice c : choices) {
-					choiceModels.add(modelMapper.map(c, ChoiceModel.class));
+			if(Q == 2) {
+				List<Question2Q> listQuestion2Q = question2QRepo.findByInspectionId(inspectionId);
+				questions = new ArrayList<>();
+				for (Question2Q o : listQuestion2Q) {
+					QuestionModel questionModel = new QuestionModel();
+					List<Choice> choices = choiceRepository.findListChoiceByQuestionIdInt(o.getQuestion2Q_id());
+					List<ChoiceModel> choiceModels = new ArrayList<>();
+					for (Choice c : choices) {
+						choiceModels.add(modelMapper.map(c, ChoiceModel.class));
+					}
+					
+					questionModel.setQuestionId((long) o.getQuestion2Q_id());
+					questionModel.setQuestionName(o.getQuestion2Q_name());
+					questionModel.setChoices(choiceModels);
+					questions.add(questionModel);
 				}
-				questionModel = modelMapper.map(o, QuestionModel.class);
-				questionModel.setChoices(choiceModels);
-				questions.add(questionModel);
+				inspectionRespModel.setQuestions(questions);
+			}else if(Q == 8) {
+				List<Question8Q> listQuestion8Q = question8QRepo.findByInspectionId(inspectionId);
+				questions = new ArrayList<>();
+				for (Question8Q o : listQuestion8Q) {
+					QuestionModel questionModel = new QuestionModel();
+					List<Choice> choices = choiceRepository.findListChoiceByQuestionIdInt(o.getQuestion8Q_id());
+					List<ChoiceModel> choiceModels = new ArrayList<>();
+					for (Choice c : choices) {
+						choiceModels.add(modelMapper.map(c, ChoiceModel.class));
+					}
+//					questionModel = modelMapper.map(o, QuestionModel.class);
+					questionModel.setQuestionId((long) o.getQuestion8Q_id());
+					questionModel.setQuestionName(o.getQuestion8Q_name());
+					questionModel.setChoices(choiceModels);
+					questions.add(questionModel);
+				}
+				inspectionRespModel.setQuestions(questions);
+			}else {
+				List<Question> listQuestion = questionRepository.findListQuestionByInspectionId(getLong(inspectionId));
+				questions = new ArrayList<>();
+				for (Question o : listQuestion) {
+					QuestionModel questionModel = new QuestionModel();
+					List<Choice> choices = choiceRepository.findListChoiceByQuestionId(o.getQuestionId());
+					List<ChoiceModel> choiceModels = new ArrayList<>();
+					for (Choice c : choices) {
+						choiceModels.add(modelMapper.map(c, ChoiceModel.class));
+					}
+					questionModel = modelMapper.map(o, QuestionModel.class);
+					questionModel.setChoices(choiceModels);
+					questions.add(questionModel);
+				}
+				inspectionRespModel.setQuestions(questions);
 			}
-			inspectionRespModel.setQuestions(questions);
+			
 		}
 		return inspectionRespModel;
 	}

@@ -76,11 +76,11 @@ public class AssessController implements Serializable {
 
 	}
 
-	@GetMapping(value = { "/get-inspection-by-id/{inspectionId}" })
+	@GetMapping(value = { "/get-inspection-by-id/{inspectionId}/{Q}" })
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
-	public Object getInspectionById(@PathVariable("inspectionId") String inspectionId) {
+	public Object getInspectionById(@PathVariable("inspectionId") String inspectionId,@PathVariable("Q") Integer Q) {
 		RestManager manager = new RestManager();
-		manager.addResult(assessService.getInspectionById(inspectionId));
+		manager.addResult(assessService.getInspectionById(inspectionId,Q));
 		return manager.getResult();
 	}
 
@@ -105,7 +105,7 @@ public class AssessController implements Serializable {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
 	public Object listQuestionByInspectionId(@PathVariable("inspectionId") String inspectionId) {
 		RestManager manager = new RestManager();
-		manager.addResult(assessService.getInspectionById(inspectionId));
+		manager.addResult(assessService.getInspectionById(inspectionId,0));
 		return manager.getResult();
 	}
 
