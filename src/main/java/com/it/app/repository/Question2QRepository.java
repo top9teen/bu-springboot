@@ -10,6 +10,6 @@ import com.it.app.entity.Question2Q;
 public interface Question2QRepository extends JpaRepository<Question2Q, String> {
 
 	@Query(value = "SELECT qq.* FROM question2q qq WHERE qq.inspection_id = ?1 ", nativeQuery = true)
-	List<Question2Q> findByInspectionId(int inspectionId);
+	List<Question2Q> findByInspectionId(String inspectionId);
 
 }

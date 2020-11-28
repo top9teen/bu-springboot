@@ -323,12 +323,12 @@ public class AssessController implements Serializable {
 	}
 
 	@GetMapping(value = "/getQuestion2Q/{inspectionId}")
-	public List<Question2Q> getQuestion2Q(@PathVariable("inspectionId") int inspectionId) {
+	public List<Question2Q> getQuestion2Q(@PathVariable("inspectionId") String inspectionId) {
 		List<Question2Q> result = new ArrayList<Question2Q>();
 		try {
 			result = question2QRepo.findByInspectionId(inspectionId);
 		} catch (Exception e) {
-			// TODO: handle exceptiondsa
+			// TODO: handle exception
 		}
 		return result;
 	}
