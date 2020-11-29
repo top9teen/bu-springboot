@@ -6,7 +6,6 @@ import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -27,10 +26,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.it.app.entity.Assessment;
 import com.it.app.entity.Question2Q;
 import com.it.app.entity.Question8Q;
 import com.it.app.entity.UserProfile;
 import com.it.app.manager.RestManager;
+import com.it.app.model.AssessmentModel;
 import com.it.app.model.AssessmentReqModel;
 import com.it.app.model.ReportConclusionBean;
 import com.it.app.model.req.CriterionReqModel;
@@ -45,6 +46,7 @@ import com.it.app.repository.Question2QRepository;
 import com.it.app.repository.Question8QRepository;
 import com.it.app.repository.UserProfileRepository;
 import com.it.app.service.AssessService;
+import com.it.app.service.QuestionService;
 import com.it.app.service.ReportComplete;
 
 import io.swagger.annotations.ApiResponse;
@@ -66,6 +68,8 @@ public class AssessController implements Serializable {
 	private Question2QRepository question2QRepo;
 	@Autowired
 	private Question8QRepository question8QRepo;
+	@Autowired
+	QuestionService questionService;
 
 	@GetMapping(value = { "/list-inspection" })
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
@@ -78,9 +82,9 @@ public class AssessController implements Serializable {
 
 	@GetMapping(value = { "/get-inspection-by-id/{inspectionId}/{Q}" })
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
-	public Object getInspectionById(@PathVariable("inspectionId") String inspectionId,@PathVariable("Q") Integer Q) {
+	public Object getInspectionById(@PathVariable("inspectionId") String inspectionId, @PathVariable("Q") Integer Q) {
 		RestManager manager = new RestManager();
-		manager.addResult(assessService.getInspectionById(inspectionId,Q));
+		manager.addResult(assessService.getInspectionById(inspectionId, Q));
 		return manager.getResult();
 	}
 
@@ -105,7 +109,7 @@ public class AssessController implements Serializable {
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
 	public Object listQuestionByInspectionId(@PathVariable("inspectionId") String inspectionId) {
 		RestManager manager = new RestManager();
-		manager.addResult(assessService.getInspectionById(inspectionId,0));
+		manager.addResult(assessService.getInspectionById(inspectionId, 0));
 		return manager.getResult();
 	}
 
@@ -340,6 +344,34 @@ public class AssessController implements Serializable {
 			result = question8QRepo.findByInspectionId(inspectionId);
 		} catch (Exception e) {
 			// TODO: handle exception
+		}
+		return result;
+	}
+
+	@PostMapping(value = "/save-assessment2Q")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
+	public Assessment saveAssessment2Q(@Valid @RequestBody List<AssessmentModel> assessmentModel,
+			HttpServletRequest request) {
+		Assessment result = new Assessment();
+		try {
+			result = questionService.resultsInterpretation(assessmentModel);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return result;
+	}
+	
+	@PostMapping(value = "/save-assessment9Q")
+	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
+	public Assessment saveAssessment9Q(@Valid @RequestBody List<AssessmentModel> assessmentModel,
+			HttpServletRequest request) {
+		Assessment result = new Assessment();
+		try {
+//			result = questionService.resultsInterpretation(assessmentModel);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return result;
 	}

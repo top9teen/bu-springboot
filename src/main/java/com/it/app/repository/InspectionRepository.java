@@ -17,4 +17,7 @@ public interface InspectionRepository extends JpaRepository<Inspection, Long>{
 	
 	@Query(value = "DELETE FROM inspection  WHERE inspection_id = ?1 ", nativeQuery = true)
 	void deleteById(Long inspectionId);
+
+	@Query(value = "SELECT * FROM inspection  WHERE inspection_id = ?1 and status = 'A' ", nativeQuery = true)
+	Inspection findByInspectionId(String inspectionId);
 }
