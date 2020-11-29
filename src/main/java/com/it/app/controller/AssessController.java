@@ -365,9 +365,9 @@ public class AssessController implements Serializable {
 	
 	@PostMapping(value = "/save-assessment9Q")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
-	public Assessment saveAssessment9Q(@Valid @RequestBody List<AssessmentModel> assessmentModel,
+	public ReturnAssessStatus saveAssessment9Q(@Valid @RequestBody List<AssessmentModel> assessmentModel,
 			HttpServletRequest request) {
-		Assessment result = new Assessment();
+		ReturnAssessStatus result = new ReturnAssessStatus();
 		try {
 			result = questionService.resultsAssessment9Q(assessmentModel);
 		} catch (Exception e) {

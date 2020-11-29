@@ -27,7 +27,7 @@ public class QuestionService {
 	AssessmentRepository assessmentRepo;
 	@Autowired
 	InspectionRepository inspectionRepo;
-	
+
 	public ReturnAssessStatus resultsInterpretation(@Valid List<AssessmentModel> assessmentModel) {
 		// TODO Auto-generated method stub
 		boolean results = false;
@@ -40,7 +40,6 @@ public class QuestionService {
 		result_.setStatus(results);
 		result_.setAssessmentId(this.saveAssessmen(results, assessmentModel).getAssessmentId());
 		return result_;
-//		return this.saveAssessmen(results, assessmentModel);
 	}
 
 	private Assessment saveAssessmen(boolean results, @Valid List<AssessmentModel> assessmentModel) {
@@ -73,13 +72,15 @@ public class QuestionService {
 			return null;
 		}
 	}
-	
-	public Assessment resultsAssessment9Q(@Valid List<AssessmentModel> assessmentModel) {
+
+	public ReturnAssessStatus resultsAssessment9Q(@Valid List<AssessmentModel> assessmentModel) {
 		// TODO Auto-generated method stub
+		ReturnAssessStatus result_ = new ReturnAssessStatus();
 		int criterionTotal = 0;
 		String assessmentId = null;
 		String inspectionId = null;
 		String userId = null;
+		boolean results = false;
 		try {
 			for (AssessmentModel assess : assessmentModel) {
 				if (assess.getAnswer() != null) {
@@ -91,8 +92,13 @@ public class QuestionService {
 				}
 				if (assess.getQuestion_id() != null) {
 					inspectionId = assess.getQuestion_id();
-				}				
+				}
 				userId = assess.getUserId();
+			}
+			// < 7 false
+			// 7-12 true
+			if (criterionTotal >= 7) {
+				results = true;
 			}
 			System.out.println("criterionTotal : " + criterionTotal);
 
@@ -100,7 +106,10 @@ public class QuestionService {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
-		return this.saveAssessment9Q(assessmentId, inspectionId, criterionTotal, userId);
+		result_.setStatus(results);
+		result_.setAssessmentId(
+				this.saveAssessment9Q(assessmentId, inspectionId, criterionTotal, userId).getAssessmentId());
+		return result_;
 	}
 
 	private Assessment saveAssessment9Q(String assessmentId, String inspectionId, int criterionTotal, String userId) {
