@@ -34,6 +34,7 @@ import com.it.app.manager.RestManager;
 import com.it.app.model.AssessmentModel;
 import com.it.app.model.AssessmentReqModel;
 import com.it.app.model.ReportConclusionBean;
+import com.it.app.model.ReturnAssessStatus;
 import com.it.app.model.req.CriterionReqModel;
 import com.it.app.model.req.DataGoogleDetailsModel;
 import com.it.app.model.req.DataGoogleDetailsModelStr;
@@ -350,15 +351,15 @@ public class AssessController implements Serializable {
 
 	@PostMapping(value = "/save-assessment2Q")
 	@ApiResponses({ @ApiResponse(code = 200, message = "Success") })
-	public Assessment saveAssessment2Q(@Valid @RequestBody List<AssessmentModel> assessmentModel,
+	public ReturnAssessStatus saveAssessment2Q(@Valid @RequestBody List<AssessmentModel> assessmentModel,
 			HttpServletRequest request) {
-		Assessment result = new Assessment();
-		try {
-			result = questionService.resultsInterpretation(assessmentModel);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
+			ReturnAssessStatus result = new ReturnAssessStatus();
+			try {
+				result = questionService.resultsInterpretation(assessmentModel);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 		return result;
 	}
 	

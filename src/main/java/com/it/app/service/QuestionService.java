@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.it.app.entity.Assessment;
 import com.it.app.entity.Inspection;
 import com.it.app.model.AssessmentModel;
+import com.it.app.model.ReturnAssessStatus;
 import com.it.app.repository.AssessmentRepository;
 import com.it.app.repository.InspectionRepository;
 
@@ -27,15 +28,18 @@ public class QuestionService {
 	@Autowired
 	InspectionRepository inspectionRepo;
 	
-	public Assessment resultsInterpretation(@Valid List<AssessmentModel> assessmentModel) {
+	public ReturnAssessStatus resultsInterpretation(@Valid List<AssessmentModel> assessmentModel) {
 		// TODO Auto-generated method stub
 		boolean results = false;
+		ReturnAssessStatus result_ = new ReturnAssessStatus();
 		for (AssessmentModel value : assessmentModel) {
 			if (value.getAnswer().equalsIgnoreCase("0")) {
 				results = true;
 			}
-		}		
-		return this.saveAssessmen(results, assessmentModel);
+		}
+		result_.setStatus(results);
+		result_.setAssessmentId(this.saveAssessmen(results, assessmentModel).getAssessmentId());
+		return result_;
 	}
 
 	private Assessment saveAssessmen(boolean results, @Valid List<AssessmentModel> assessmentModel) {
