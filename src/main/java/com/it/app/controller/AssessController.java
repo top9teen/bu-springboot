@@ -369,7 +369,7 @@ public class AssessController implements Serializable {
 			HttpServletRequest request) {
 		Assessment result = new Assessment();
 		try {
-//			result = questionService.resultsInterpretation(assessmentModel);
+			result = questionService.resultsAssessment9Q(assessmentModel);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import com.it.app.entity.Assessment;
@@ -29,5 +30,12 @@ public interface AssessmentRepository extends JpaRepository<Assessment, Long>{
 	
 	@Query(value = "SELECT * FROM assessment  WHERE user_id = :userId  AND create_date BETWEEN :dateStart AND :dateEnd ORDER BY create_date DESC limit 1", nativeQuery = true)
 	Optional<Assessment> findAssessmentByInspectionIdAndUserIdALL(Long userId, String dateStart , String dateEnd);
+
+	@Modifying
+	@Query(value = "UPDATE assessment SET assessment_detail = ?2, criterion_total = ?3 WHERE assessment_id = ?1 ", nativeQuery = true)
+	void updateAssessment9Q(String assessmentId, String assessmentDetail, String criterionTotal);
+	
+	@Query(value = "SELECT * FROM assessment WHERE assessment_id = ?1 ", nativeQuery = true)
+	Assessment findByAssessmentId(String assessmentId);
 	
 }
