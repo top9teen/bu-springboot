@@ -73,8 +73,7 @@ public class QuestionService {
 			return null;
 		}
 	}
-	// end class
-
+	
 	public Assessment resultsAssessment9Q(@Valid List<AssessmentModel> assessmentModel) {
 		// TODO Auto-generated method stub
 		int criterionTotal = 0;
@@ -137,4 +136,5 @@ public class QuestionService {
 			return null;
 		}
 	}
+	// end class
 }
