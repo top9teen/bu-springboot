@@ -4,6 +4,7 @@ public class ReturnAssessStatus {
 
 	private Long assessmentId;
 	private Boolean status;
+	private String detail;
 	/**
 	 * @return the assessmentId
 	 */
@@ -27,6 +28,18 @@ public class ReturnAssessStatus {
 	 */
 	public void setStatus(Boolean status) {
 		this.status = status;
+	}
+	/**
+	 * @return the detail
+	 */
+	public String getDetail() {
+		return detail;
+	}
+	/**
+	 * @param detail the detail to set
+	 */
+	public void setDetail(String detail) {
+		this.detail = detail;
 	}
 	
 	

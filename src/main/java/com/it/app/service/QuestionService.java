@@ -145,5 +145,58 @@ public class QuestionService {
 			return null;
 		}
 	}
+	
+	public ReturnAssessStatus resultsAssessment8Q(@Valid List<AssessmentModel> assessmentModel) {
+		// TODO Auto-generated method stub
+		int criterionTotal = 0;
+		String assessmentId = null;
+		try {
+			for (AssessmentModel assess : assessmentModel) {
+				if (assess.getAnswer() != null) {
+					int i = Integer.parseInt(assess.getAnswer());
+					criterionTotal += i;
+				}
+				if (assess.getAssessmentId() != null) {
+					assessmentId = assess.getAssessmentId();
+				}
+			}			
+			System.out.println("criterionTotal : " + criterionTotal);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return this.saveAssessment8Q(assessmentId, criterionTotal);
+	}
+	
+	private ReturnAssessStatus saveAssessment8Q(String assessmentId, Integer criterionTotal) {
+		// TODO Auto-generated method stub
+		try {
+			ReturnAssessStatus result = new ReturnAssessStatus();
+			Assessment assessment = assessmentRepo.findByAssessmentId(assessmentId);
+			assessment.setCreateDate(new Timestamp(new Date().getTime()));
+			String name = new String();
+			result.setStatus(false);
+			result.setAssessmentId(assessment.getAssessmentId());
+			if (criterionTotal < 1) {
+				name = " และไม่มีแนวโน้มฆ่าตัวตายในปัจจุบัน";
+			} else if (criterionTotal <= 12) {
+				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับเล็กน้อย";
+			} else if (criterionTotal <= 18) {
+				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับปานกลาง";
+			} else if (criterionTotal >= 19) {
+				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับรุนแรง";
+				result.setDetail("ส่งต่อโรงพยาบาลที่มีจิตเเพทย์ด่วน");
+				result.setStatus(true);
+			}
+			 assessment.setAssessmentDetail(assessment.getAssessmentDetail() + name);
+			 assessmentRepo.save(assessment);
+			return result;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return null;
+		}
+	}
 	// end class
 }
