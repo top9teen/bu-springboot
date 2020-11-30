@@ -137,7 +137,7 @@ public class QuestionService {
 				assessment.setAssessmentDetail(assessment.getAssessmentDetail() + name);
 			}
 			assessment.setInspectionId(Long.parseLong(inspectionId));
-//			assessment.setCriterionTotal(String.valueOf(criterionTotal));
+			assessment.setCriterionTotal(String.valueOf(criterionTotal));
 			return assessmentRepo.save(assessment);
 		} catch (Exception e) {
 			// TODO: handle exception
