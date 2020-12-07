@@ -106,6 +106,16 @@ public class QuestionService {
 			// TODO: handle exception
 			e.printStackTrace();
 		}
+		
+		if (criterionTotal < 7) {
+			result_.setDetail("ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้า ระดับน้อยมาก");
+		} else if (criterionTotal <= 12) {
+			result_.setDetail("มีอาการของโรคซึมเศร้า ระดับน้อย");
+		} else if (criterionTotal <= 18) {
+			result_.setDetail("มีอาการของโรคซึมเศร้า ระดับปานกลาง");
+		} else if (criterionTotal >= 19) {
+			result_.setDetail("มีอาการของโรคซึมเศร้า ระดับรุนแรง  ให้ประเมินแนวโน้มการฆ่าตัวตาย ด้วย 8Q");
+		}
 		result_.setStatus(results);
 		result_.setAssessmentId(
 				this.saveAssessment9Q(assessmentId, inspectionId, criterionTotal, userId).getAssessmentId());
@@ -180,13 +190,16 @@ public class QuestionService {
 			result.setAssessmentId(assessment.getAssessmentId());
 			if (criterionTotal < 1) {
 				name = " และไม่มีแนวโน้มฆ่าตัวตายในปัจจุบัน";
+				result.setDetail("ไม่มีแนวโน้มฆ่าตัวตายในปัจจุบัน");
 			} else if (criterionTotal <= 12) {
 				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับเล็กน้อย";
+				result.setDetail("มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับเล็กน้อย");
 			} else if (criterionTotal <= 18) {
 				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับปานกลาง";
+				result.setDetail("มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับปานกลาง");
 			} else if (criterionTotal >= 19) {
 				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับรุนแรง";
-				result.setDetail("ส่งต่อโรงพยาบาลที่มีจิตเเพทย์ด่วน");
+				result.setDetail("ะมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับรุนแรง  ส่งต่อโรงพยาบาลมีจิตเเพทย์ด่วน");
 				result.setStatus(true);
 			}
 			 assessment.setAssessmentDetail(assessment.getAssessmentDetail() + name);
