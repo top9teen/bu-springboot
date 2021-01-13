@@ -108,13 +108,13 @@ public class QuestionService {
 		}
 		
 		if (criterionTotal < 7) {
-			result_.setDetail("ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้า ระดับน้อยมาก");
+			result_.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน ไม่มีอาการของโรคซึมเศร้าหรือมีอาการของโรคซึมเศร้า ระดับน้อยมาก ");
 		} else if (criterionTotal <= 12) {
-			result_.setDetail("มีอาการของโรคซึมเศร้า ระดับน้อย");
+			result_.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน มีอาการของโรคซึมเศร้า ระดับน้อย  และ คะแนน 9Q มีมากกว่า หรือ เท่ากับ 7 ให้ประเมินแนวโน้มการฆ่าตัวตายด้วย 8Q");
 		} else if (criterionTotal <= 18) {
-			result_.setDetail("มีอาการของโรคซึมเศร้า ระดับปานกลาง");
+			result_.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน  มีอาการของโรคซึมเศร้า ระดับปานกลาง  และ คะแนน 9Q มีมากกว่า หรือ เท่ากับ 7 ให้ประเมินแนวโน้มการฆ่าตัวตายด้วย 8Q");
 		} else if (criterionTotal >= 19) {
-			result_.setDetail("มีอาการของโรคซึมเศร้า ระดับรุนแรง  ให้ประเมินแนวโน้มการฆ่าตัวตาย ด้วย 8Q");
+			result_.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน มีอาการของโรคซึมเศร้า ระดับรุนแรง   และ คะแนน 9Q มีมากกว่า หรือ เท่ากับ  7 ให้ประเมินแนวโน้มการฆ่าตัวตายด้วย 8Q ");
 		}
 		result_.setStatus(results);
 		result_.setAssessmentId(
@@ -190,16 +190,16 @@ public class QuestionService {
 			result.setAssessmentId(assessment.getAssessmentId());
 			if (criterionTotal < 1) {
 				name = " และไม่มีแนวโน้มฆ่าตัวตายในปัจจุบัน";
-				result.setDetail("ไม่มีแนวโน้มฆ่าตัวตายในปัจจุบัน");
-			} else if (criterionTotal <= 12) {
+				result.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน ไม่มีแนวโน้มฆ่าตัวตายในปัจจุบัน");
+			} else if (criterionTotal <= 8) {
 				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับเล็กน้อย";
-				result.setDetail("มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับเล็กน้อย");
-			} else if (criterionTotal <= 18) {
+				result.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับเล็กน้อย ");
+			} else if (criterionTotal <= 16) {
 				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับปานกลาง";
-				result.setDetail("มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับปานกลาง");
-			} else if (criterionTotal >= 19) {
+				result.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับปานกลาง ");
+			} else if (criterionTotal >= 17) {
 				name = " และมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับรุนแรง";
-				result.setDetail("ะมีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับรุนแรง  ส่งต่อโรงพยาบาลมีจิตเเพทย์ด่วน");
+				result.setDetail("ผลคะแนนที่ได้ = "+ criterionTotal + " คะแนน  มีแนวโน้มฆ่าตัวตายในปัจจุบัน ระดับรุนแรง  ส่งต่อโรงพยาบาลมีจิตเเพทย์ด่วน ");
 				result.setStatus(true);
 			}
 			 assessment.setAssessmentDetail(assessment.getAssessmentDetail() + name);
